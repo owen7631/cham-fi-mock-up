@@ -720,6 +720,7 @@ img {
 .shop-header__logo { width: 170px; height: 26px; object-fit: contain; object-position: left center; margin-top: -var(--extra-gap-2); }
 .shop-header__icons { margin-left: auto; display: flex; align-items: center; gap: var(--extra-space-22); margin-right: var(--extra-space-3); }
 .shop-header__icons img { display: block; }
+.shop-header__btn { display: block; padding: 0; line-height: 0; }
 
 .shop-footer {
   background: var(--shop-bg);
@@ -825,4 +826,202 @@ img {
   top: -2px;
   width: 7px;
   height: 7px;
+}
+
+/* -------------------------------------------------------------------------
+   DemoSettings — 시연 설정 바텀시트 (헤더 알림 종에서 엶 · js/chamfi.js)
+   provide-consent.html 의 .sheet-overlay / .sheet 패턴과 같은 열고 닫힘
+   ------------------------------------------------------------------------- */
+.cf-demo {
+  position: absolute;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: flex-end;
+  background: var(--chamfi-overlay);
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.28s ease, visibility 0s linear 0s;
+}
+
+.cf-demo.is-closed {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.28s ease, visibility 0s linear 0.3s;
+}
+
+.cf-demo__sheet {
+  width: 100%;
+  max-height: 88%;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-3) var(--space-5) var(--space-6);
+  background: var(--chamfi-surface);
+  border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
+  box-shadow: var(--shadow-sheet);
+  transform: translateY(0);
+  transition: transform 0.34s cubic-bezier(0.22, 0.9, 0.3, 1);
+}
+
+.cf-demo.is-closed .cf-demo__sheet {
+  transform: translateY(100%);
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.8, 0.3);
+}
+
+.cf-demo__grab {
+  flex: none;
+  align-self: center;
+  width: 36px;
+  height: 4px;
+  margin-bottom: var(--space-4);
+  border-radius: var(--radius-pill);
+  background: var(--chamfi-line);
+}
+
+.cf-demo__head {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cf-demo__close {
+  width: var(--size-touch-min);
+  height: var(--size-touch-min);
+  margin-right: calc(var(--space-2) * -1);
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-pill);
+}
+
+.cf-demo__close img {
+  width: 24px;
+  height: 24px;
+}
+
+.cf-demo__note {
+  flex: none;
+  margin-top: var(--space-1);
+}
+
+.cf-demo__scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  margin: var(--space-2) calc(var(--space-5) * -1) var(--space-3);
+  padding: 0 var(--space-5) var(--space-1);
+}
+
+.cf-demo__group {
+  margin: var(--space-4) 0 var(--space-2);
+  color: var(--chamfi-ink-subtle);
+  font: var(--type-body-sm-strong-weight) var(--type-body-sm-strong-size)/var(--type-body-sm-strong-line) var(--font-family);
+}
+
+.cf-demo__group:first-child {
+  margin-top: var(--space-1);
+}
+
+/* 농장 3칸 세그먼트 */
+.cf-demo__seg {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding: var(--space-1);
+  border-radius: var(--radius-md);
+  background: var(--chamfi-surface-sunken);
+}
+
+.cf-demo__seg button {
+  height: 40px;
+  padding: 0 var(--space-1);
+  border-radius: var(--radius-sm);
+  color: var(--chamfi-ink-subtle);
+  font: var(--type-body-sm-strong-weight) var(--type-body-sm-strong-size)/var(--type-body-sm-strong-line) var(--font-family);
+  white-space: nowrap;
+  transition: background-color 0.15s, color 0.15s, box-shadow 0.15s;
+}
+
+.cf-demo__seg button[aria-pressed="true"] {
+  background: var(--chamfi-surface);
+  color: var(--chamfi-ink);
+  box-shadow: var(--shadow-seg);
+}
+
+/* 시나리오 라디오 카드 */
+.cf-demo__opts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--extra-gap-6);
+}
+
+.cf-demo__opt {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--extra-gap-10) var(--space-3);
+  border: 1px solid var(--chamfi-line);
+  border-radius: var(--radius-md);
+  background: var(--chamfi-surface);
+  text-align: left;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+
+.cf-demo__radio {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid var(--chamfi-control-line);
+  background: var(--chamfi-surface);
+  transition: border-width 0.15s, border-color 0.15s;
+}
+
+.cf-demo__text {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+}
+
+.cf-demo__text b {
+  color: var(--chamfi-ink);
+  font: var(--type-title-sm-weight) var(--type-title-sm-size)/var(--type-title-sm-line) var(--font-family);
+}
+
+.cf-demo__text span {
+  color: var(--chamfi-ink-subtle);
+  font: var(--font-weight-regular) var(--type-caption-size)/var(--type-caption-line) var(--font-family);
+}
+
+.cf-demo__opt[aria-checked="true"] {
+  background: var(--chamfi-selected-bg);
+  border-color: var(--chamfi-selected-line);
+}
+
+.cf-demo__opt[aria-checked="true"] .cf-demo__text b {
+  color: var(--chamfi-on-selected);
+}
+
+.cf-demo__opt[aria-checked="true"] .cf-demo__radio {
+  border: 6px solid var(--chamfi-primary);
+}
+
+.cf-demo__sheet > .cf-btn {
+  flex: none;
+}
+
+.cf-demo button:focus-visible {
+  outline: 2px solid var(--chamfi-focus);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cf-demo,
+  .cf-demo__sheet,
+  .cf-demo.is-closed,
+  .cf-demo.is-closed .cf-demo__sheet {
+    transition-duration: 0.01ms;
+  }
 }

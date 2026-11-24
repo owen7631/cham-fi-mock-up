@@ -6,6 +6,8 @@
   <title>[M-03-W] 소 조회 로딩 · CHAM-Fi</title>
   <link rel="stylesheet" href="css/chamfi.css" />
   <script src="js/auth.js"></script>
+  <script src="js/farm.js"></script>
+  <script src="js/chamfi.js"></script>
   <style>
     .load { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; align-items: center; gap: var(--space-10); padding: var(--space-10) var(--space-5) var(--space-6); }
     .load__top { display: flex; flex-direction: column; align-items: center; gap: var(--space-6); width: 100%; }
@@ -129,7 +131,7 @@
           </div>
           <svg class="stage__ring" viewBox="0 0 220 220" aria-hidden="true">
             <circle class="track" cx="110" cy="110" r="107.525" />
-            <circle class="arc" id="arc" cx="110" cy="110" r="107.525" />
+            <circle class="arc" id="arc" cx="110" cy="110" r="107.525" stroke-dasharray="675.6" stroke-dashoffset="675.6" />
           </svg>
         </div>
       </div>
@@ -165,8 +167,11 @@
     </div>
   </main>
 
-  <script src="js/farm.js"></script>
-  <script src="js/chamfi.js"></script>
+  <script>
+    // 첫 화면을 그리기 전에 농장 값 · 탭 점 채움 (공통 스크립트는 <head> 에서 로드)
+    cfFarm.bind(document);
+    cfFarm.syncTabDot();
+  </script>
   <script>
     (function () {
       var STEP_MS = 1000;              // 8단계 · 총 8초 (기존 700ms · 5.6초에서 연장)

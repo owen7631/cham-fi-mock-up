@@ -6,6 +6,8 @@
   <title>[M-04] 확인 · 정보 제공 동의 · CHAM-Fi</title>
   <link rel="stylesheet" href="css/chamfi.css" />
   <script src="js/auth.js"></script>
+  <script src="js/farm.js"></script>
+  <script src="js/chamfi.js"></script>
   <style>
     .hero { display: flex; flex-direction: column; gap: var(--extra-gap-6); }
 
@@ -143,8 +145,11 @@
     </div>
   </main>
 
-  <script src="js/farm.js"></script>
-  <script src="js/chamfi.js"></script>
+  <script>
+    // 첫 화면을 그리기 전에 농장 값 · 탭 점 채움 (공통 스크립트는 <head> 에서 로드)
+    cfFarm.bind(document);
+    cfFarm.syncTabDot();
+  </script>
   <script>
     (function () {
       var ins = document.getElementById("ins");

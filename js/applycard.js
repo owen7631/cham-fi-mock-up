@@ -1,4 +1,11 @@
-/* CHAM-Fi mockup · 신청 현황 카드 (M-09) — 클릭할 때마다 다음 단계로 */
+/* CHAM-Fi mockup · 신청 현황 카드 (M-09) — 클릭할 때마다 다음 단계로
+ *
+ * - 단계는 cfFarm 의 sessionStorage(chamfi.applyStage)에 저장되어 화면 이동 · 새로고침에도 유지됨
+ * - data-stage        : 저장값이 없을 때의 단계
+ * - data-stage-fixed  : 저장값과 상관없이 data-stage 로 보여 주는 시안 화면 (누르면 다음 단계를 저장)
+ * - 깜빡임 방지를 위해 <head> 에서 불러오고, 카드 마크업 뒤에서 cfApplyCard.init() 으로 바로 그린다
+ *   (부르지 않아도 DOMContentLoaded 때 그려짐)
+ */
 (function () {
   "use strict";
 
@@ -73,6 +80,8 @@
     // 신청 현황 카드가 보이는 화면 = 신청이 진행 중인 상태
     if (window.cfFarm && !window.cfFarm.applied()) { window.cfFarm.setApplied(); window.cfFarm.syncTabDot(); }
     var stage = parseInt(card.getAttribute("data-stage"), 10) || 2;
+    var saved = window.cfFarm ? window.cfFarm.applyStage() : null;
+    if (saved && !card.hasAttribute("data-stage-fixed")) stage = saved;
     var finalHref = card.getAttribute("data-final-href");
     var busy = false;
     card.classList.add("ac");
@@ -90,6 +99,7 @@
       }
       busy = true;
       stage += 1;
+      if (window.cfFarm) window.cfFarm.setApplyStage(stage);
       // 1) 문구를 위로 흐려지게 → 2) 바꿔 넣고 아래에서 올라오게
       card.classList.add("is-swap");
       paint(card, stage, true);

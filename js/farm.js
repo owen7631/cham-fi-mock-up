@@ -3,6 +3,7 @@
  * - 농장 선택(M-02-T)은 sessionStorage에 저장되어 다른 화면에서 이름 · 두수 · 금액이 따라 바뀜 (새로고침해도 유지, 탭을 닫으면 초기화)
  * - 보험 가입 여부(M-04 · 가축재해보험)도 함께 저장되어 담보가치인정액과 한도에 반영됨
  * - 자산평가 진행 상태(개체 조회 완료 · 금융사 조회 완료)도 함께 저장됨
+ * - 신청 현황 단계(2 금융사 접수 · 3 심사 · 4 결과 안내)도 함께 저장됨 (M-09 신청 현황 카드)
  * - 마크업 규칙: data-f="키" → 텍스트 교체 / data-f-width="share" → 막대 너비 교체
  *
  * 산정식 (부경축공 · Figma 값 기준으로 역산)
@@ -35,6 +36,7 @@
   var KEY_APPLIED = "chamfi.applied";
   var KEY_ASSESSED = "chamfi.assessed";   // 개체 정보 조회(자산 산정) 완료한 농장 이름
   var KEY_FINANCE = "chamfi.financeChecked"; // 금융사 조회 완료한 농장 이름
+  var KEY_STAGE = "chamfi.applyStage";       // 신청 현황 단계 (2~4)
   var memory = {};
 
   // 저장은 sessionStorage(탭 단위) — 화면 이동 · 새로고침에도 값이 유지되고, 탭을 닫으면 사라진다.
@@ -81,9 +83,20 @@
     },
     setApplied: function (name) {
       name = name || api.get().name;
-      if (FARMS[name]) write(KEY_APPLIED, name);
+      if (!FARMS[name]) return;
+      if (read(KEY_APPLIED) !== name) write(KEY_STAGE, "2");   // 새 신청은 금융사 접수 단계부터
+      write(KEY_APPLIED, name);
     },
-    clearApplied: function () { write(KEY_APPLIED, ""); },
+    clearApplied: function () { write(KEY_APPLIED, ""); write(KEY_STAGE, ""); },
+
+    /** 신청 현황 단계 (2 금융사 접수 · 3 심사 · 4 결과 안내). 저장값이 없으면 null */
+    applyStage: function () {
+      var n = parseInt(read(KEY_STAGE), 10);
+      return n >= 2 && n <= 4 ? n : null;
+    },
+    setApplyStage: function (n) {
+      if (n >= 2 && n <= 4) write(KEY_STAGE, String(n));
+    },
 
     /** CHAM-Fi 진입 경로: 자산평가를 마친 농장이면 홈, 아니면 농장 선택 */
     entry: function () { return api.assessed() ? "home.html" : "farm-select.html"; },

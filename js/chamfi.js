@@ -72,7 +72,7 @@
    * - 시트에서 고른 값 자체는 저장하지 않음 (열 때마다 현재 농장 · 선택 없음으로 시작)
    *
    * 시나리오 필드: href = 이동할 화면 / assessed = 자산평가(소 조회) 완료
-   *               finance = 금융사 조회 완료 / applied = 신청 접수
+   *               finance = 금융사 조회 완료 / applied = 신청 접수 / stage = 신청 현황 단계(2~4)
    * ----------------------------------------------------------------------- */
   var DEMO_GROUPS = [
     { title: "처음 · 진행 화면", items: [
@@ -82,18 +82,18 @@
       { key: "confirm", label: "확인 · 정보 제공 동의", desc: "소 조회를 마친 상태", href: "provide-consent.html", assessed: true },
       { key: "banks", label: "금융사 조회 로딩", desc: "조회가 끝나면 결과 화면으로 넘어감", href: "finance-loading.html", assessed: true },
       { key: "offers", label: "조회 결과 · 상품 선택", desc: "상품 3개", href: "result.html", assessed: true, finance: true },
-      { key: "done", label: "신청 완료", desc: "참참축협에 신청을 보낸 직후", href: "apply-complete.html", assessed: true, finance: true, applied: true }
+      { key: "done", label: "신청 완료", desc: "참참축협에 신청을 보낸 직후", href: "apply-complete.html", assessed: true, finance: true, applied: true, stage: 2 }
     ] },
     { title: "CHAM-Fi 홈 상태", items: [
       { key: "home-pre", label: "홈 · 신청 전", desc: "소 조회만 하고 나간 상태", href: "edge-home-before.html", assessed: true },
       { key: "home-resume", label: "홈 · 이어서 신청", desc: "상품 조회 결과가 남아 있는 상태", href: "edge-home-resume.html", assessed: true, finance: true },
-      { key: "home-applied", label: "홈 · 신청 접수", desc: "신청 현황 2단계", href: "home.html", assessed: true, finance: true, applied: true },
-      { key: "home-review", label: "홈 · 심사 중", desc: "신청 현황 3단계", href: "edge-home-reviewing.html", assessed: true, finance: true, applied: true },
-      { key: "home-result", label: "홈 · 결과 안내", desc: "신청 현황 4단계", href: "edge-home-result.html", assessed: true, finance: true, applied: true }
+      { key: "home-applied", label: "홈 · 신청 접수", desc: "신청 현황 2단계", href: "home.html", assessed: true, finance: true, applied: true, stage: 2 },
+      { key: "home-review", label: "홈 · 심사 중", desc: "신청 현황 3단계", href: "edge-home-reviewing.html", assessed: true, finance: true, applied: true, stage: 3 },
+      { key: "home-result", label: "홈 · 결과 안내", desc: "신청 현황 4단계", href: "edge-home-result.html", assessed: true, finance: true, applied: true, stage: 4 }
     ] },
     { title: "심사 결과", items: [
-      { key: "result-ok", label: "심사 결과 · 진행 가능", desc: "금융사 통지 내용", href: "apply-detail.html", assessed: true, finance: true, applied: true },
-      { key: "result-no", label: "심사 결과 · 진행이 어려움", desc: "금융사 통지 내용", href: "edge-apply-stalled.html", assessed: true, finance: true, applied: true }
+      { key: "result-ok", label: "심사 결과 · 진행 가능", desc: "금융사 통지 내용", href: "apply-detail.html", assessed: true, finance: true, applied: true, stage: 4 },
+      { key: "result-no", label: "심사 결과 · 진행이 어려움", desc: "금융사 통지 내용", href: "edge-apply-stalled.html", assessed: true, finance: true, applied: true, stage: 4 }
     ] },
     { title: "오류 · 빈 상태", items: [
       { key: "cattle-fail", label: "이력제 조회 실패", desc: "소 조회 중 실패", href: "edge-loading-failed.html" },
@@ -124,7 +124,7 @@
       F.clearApplied();
       if (sc.assessed) F.setAssessed(farmName);
       if (sc.finance) F.setFinanceChecked(farmName);
-      if (sc.applied) F.setApplied(farmName);
+      if (sc.applied) { F.setApplied(farmName); F.setApplyStage(sc.stage || 2); }
     }
     if (A) {
       if (sc.key === "start") A.logout();

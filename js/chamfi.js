@@ -2,6 +2,14 @@
 (function () {
   "use strict";
 
+  /** 430px보다 좁은 화면에서는 프레임을 화면 너비에 맞춰 축소 */
+  function cfFit() {
+    var s = Math.min(1, window.innerWidth / 430);
+    document.documentElement.style.setProperty("--fit", s.toFixed(4));
+  }
+  cfFit();
+  window.addEventListener("resize", cfFit);
+
   /** [data-href] 요소를 클릭하면 해당 화면으로 이동 */
   document.addEventListener("click", function (e) {
     var el = e.target.closest("[data-href]");

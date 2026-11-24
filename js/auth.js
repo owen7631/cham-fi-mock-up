@@ -27,6 +27,9 @@
   /** 로그아웃 시 함께 지울 자산평가 · 금융사 조회 상태 (farm.js 와 같은 키) */
   var ASSESSMENT_KEYS = ["chamfi.assessed", "chamfi.financeChecked"];
 
+  // 화면 목록(screens.html)의 미리보기 iframe 은 실제 세션 상태를 읽거나 바꾸지 않음 (메모리만 사용)
+  var inFrame = window.self !== window.top;
+
   /** 로그인 없이 볼 수 있는 화면 (쇼핑몰 홈 · 로그인 · 결제 완료 · 화면 목록) */
   var PUBLIC_PAGES = ["", "index.html", "shop-login.html", "shop-order-complete.html", "screens.html"];
 
@@ -34,6 +37,7 @@
   var memory = null; // sessionStorage 를 쓸 수 없을 때를 위한 대체 저장소
 
   function read() {
+    if (inFrame) return memory !== null ? memory : DEFAULT_LOGGED_IN;
     try {
       var v = window.sessionStorage.getItem(STORAGE_KEY);
       if (v === "1") return true;
@@ -46,10 +50,12 @@
 
   function write(value) {
     memory = value;
+    if (inFrame) return;
     try { window.sessionStorage.setItem(STORAGE_KEY, value ? "1" : "0"); } catch (e) { /* 메모리 값만 사용 */ }
   }
 
   function clearAssessment() {
+    if (inFrame) return;
     ASSESSMENT_KEYS.forEach(function (k) {
       try { window.sessionStorage.removeItem(k); } catch (e) { /* 저장소 사용 불가 */ }
     });
@@ -104,7 +110,7 @@
   };
   window.cfAuth = auth;
 
-  var inFrame = window.self !== window.top; // 화면 목록(screens.html)의 미리보기 안에서는 이동하지 않음
+  // 화면 목록(screens.html)의 미리보기 안에서는 이동하지 않음 (inFrame)
   var page = currentPage();
 
   /* ---- 로그인 화면: ?logout=1 이면 로그아웃 상태로 되돌리기 ---- */

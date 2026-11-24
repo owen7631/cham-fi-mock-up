@@ -4,6 +4,7 @@
  * - 보험 가입 여부(M-04 · 가축재해보험)도 함께 저장되어 담보가치인정액과 한도에 반영됨
  * - 자산평가 진행 상태(개체 조회 완료 · 금융사 조회 완료)도 함께 저장됨
  * - 신청 현황 단계(2 금융사 접수 · 3 심사 · 4 결과 안내)도 함께 저장됨 (M-09 신청 현황 카드)
+ * - 화면 목록(screens.html) 미리보기 iframe 안에서는 sessionStorage 를 읽지도 쓰지도 않음 (기본값 + 메모리)
  * - 마크업 규칙: data-f="키" → 텍스트 교체 / data-f-width="share" → 막대 너비 교체
  *
  * 산정식 (부경축공 · Figma 값 기준으로 역산)
@@ -40,13 +41,18 @@
   var memory = {};
 
   // 저장은 sessionStorage(탭 단위) — 화면 이동 · 새로고침에도 값이 유지되고, 탭을 닫으면 사라진다.
+  // 화면 목록의 미리보기(iframe)는 실제 세션 상태를 바꾸지 않도록 메모리만 쓴다.
+  var inFrame = window.self !== window.top;
 
   function read(key) {
-    try { var v = window.sessionStorage.getItem(key); if (v !== null) return v; } catch (e) { /* 저장소 사용 불가 */ }
+    if (!inFrame) {
+      try { var v = window.sessionStorage.getItem(key); if (v !== null) return v; } catch (e) { /* 저장소 사용 불가 */ }
+    }
     return memory[key] === undefined ? null : memory[key];
   }
   function write(key, value) {
     memory[key] = value;
+    if (inFrame) return;
     try { window.sessionStorage.setItem(key, value); } catch (e) { /* 저장소 사용 불가 */ }
   }
 

@@ -31,7 +31,7 @@
     .stage__ring { position: absolute; left: 0; top: 0; width: 220px; height: 220px; }
     .stage__ring circle { fill: none; stroke-width: 4.95; }
     .stage__ring .track { stroke: var(--chamfi-line); }
-    .stage__ring .arc { stroke: var(--chamfi-primary); transform: rotate(-90deg); transform-origin: 110px 110px; transition: stroke-dashoffset 0.6s ease; }
+    .stage__ring .arc { stroke: var(--chamfi-primary); transform: rotate(-90deg); transform-origin: 110px 110px; }
 
     /* 진행 카드 */
     .cards { display: flex; flex-direction: column; gap: var(--space-2); width: 100%; }
@@ -63,12 +63,46 @@
     .card .dots { display: none; }
     .card.is-active .dots { display: inline-flex; }
 
+    /* Loading/Dots · 점 3개의 색(진함 · 중간 · 연함)이 멈춤 없이 부드럽게 오른쪽으로 이동하며 무한 반복
+       세 점이 같은 사인 곡선을 120°씩 어긋나게 따라가므로 [진·중·연] → [연·진·중] → [중·연·진]이 끊김 없이 이어짐 (크기 변화 없음)
+       곡선: opacity = 0.59 + 0.41·cos(-20° - 360°·t) 을 24등분해서 선형 보간 */
     .dots { gap: var(--space-1); align-items: center; height: 9px; }
-    .dots i { width: 5px; height: 5px; border-radius: 50%; background: var(--chamfi-primary); animation: dot 1.05s infinite; }
-    .dots i:nth-child(1) { opacity: 1; }
-    .dots i:nth-child(2) { opacity: 0.45; animation-delay: 0.15s; }
-    .dots i:nth-child(3) { opacity: 0.18; animation-delay: 0.3s; }
-    @keyframes dot { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.35); } }
+    .dots i {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--chamfi-primary);
+      opacity: 0.975;
+      animation: dot-shift 1.2s linear infinite;
+    }
+    .dots i:nth-child(1) { animation-delay: 0s; }       /* 진함에서 시작 */
+    .dots i:nth-child(2) { animation-delay: -0.8s; }    /* 중간에서 시작 */
+    .dots i:nth-child(3) { animation-delay: -0.4s; }    /* 연함에서 시작 */
+    @keyframes dot-shift {
+      0% { opacity: 0.975; }
+      4.17% { opacity: 0.926; }
+      8.33% { opacity: 0.854; }
+      12.5% { opacity: 0.763; }
+      16.67% { opacity: 0.661; }
+      20.83% { opacity: 0.554; }
+      25% { opacity: 0.45; }
+      29.17% { opacity: 0.355; }
+      33.33% { opacity: 0.276; }
+      37.5% { opacity: 0.218; }
+      41.67% { opacity: 0.186; }
+      45.83% { opacity: 0.182; }
+      50% { opacity: 0.205; }
+      54.17% { opacity: 0.254; }
+      58.33% { opacity: 0.326; }
+      62.5% { opacity: 0.417; }
+      66.67% { opacity: 0.519; }
+      70.83% { opacity: 0.626; }
+      75% { opacity: 0.73; }
+      79.17% { opacity: 0.825; }
+      83.33% { opacity: 0.904; }
+      87.5% { opacity: 0.962; }
+      91.67% { opacity: 0.994; }
+      95.83% { opacity: 0.998; }
+      100% { opacity: 0.975; }
+    }
   </style>
 </head>
 <body>
@@ -135,29 +169,72 @@
   <script src="js/chamfi.js"></script>
   <script>
     (function () {
-      var STEP_MS = 700;               // 8단계 · 총 약 5.6초
+      var STEP_MS = 1000;              // 8단계 · 총 8초 (기존 700ms · 5.6초에서 연장)
       var C = 2 * Math.PI * 107.525;   // 링 둘레
 
+      var farm = cfFarm.get();
+      function cnt(f) { return Math.max(1, Math.round(farm.total * f)) + "두"; }
       var steps = [
-        { n: "1두",  fill: 0.06, face: "open",  t: "축산물이력제에서<br />개체 정보를 불러오고 있어요", s: "잠시만 기다려 주세요" },
-        { n: "5두",  fill: 0.18, face: "open",  t: "축산물이력제에서<br />개체 정보를 불러오고 있어요", s: "잠시만 기다려 주세요" },
-        { n: "9두",  fill: 0.30, face: "open",  t: "축산물이력제에서<br />개체 정보를 불러오고 있어요", s: "잠시만 기다려 주세요" },
-        { n: "12두", fill: 0.45, face: "smile", t: "개체 정보를<br />하나씩 확인하고 있어요", s: "개체이력번호는 직접 입력하지 않아도 돼요" },
-        { n: "16두", fill: 0.58, face: "smile", t: "개체 정보를<br />하나씩 확인하고 있어요", s: "개체이력번호는 직접 입력하지 않아도 돼요" },
-        { n: "20두", fill: 0.72, face: "smile", t: "마지막으로 산정 대상을<br />정리하고 있어요", s: "조회만으로는 어떤 정보도 금융사에 전달되지 않아요" },
-        { n: "26두", fill: 0.88, face: "smile", t: "마지막으로 산정 대상을<br />정리하고 있어요", s: "조회만으로는 어떤 정보도 금융사에 전달되지 않아요" },
-        { n: "8두",  fill: 1.00, face: "smile", t: "내 농장의 축산이력제를<br />모두 확인했어요", s: "곧 결과를 보여드릴게요", done: true }
+        { n: cnt(0.04), t: "축산물이력제에서<br />개체 정보를 불러오고 있어요", s: "잠시만 기다려 주세요" },
+        { n: cnt(0.19), t: "축산물이력제에서<br />개체 정보를 불러오고 있어요", s: "잠시만 기다려 주세요" },
+        { n: cnt(0.35), t: "축산물이력제에서<br />개체 정보를 불러오고 있어요", s: "잠시만 기다려 주세요" },
+        { n: cnt(0.46), t: "개체 정보를<br />하나씩 확인하고 있어요", s: "개체이력번호는 직접 입력하지 않아도 돼요" },
+        { n: cnt(0.62), t: "개체 정보를<br />하나씩 확인하고 있어요", s: "개체이력번호는 직접 입력하지 않아도 돼요" },
+        { n: cnt(0.77), t: "마지막으로 산정 대상을<br />정리하고 있어요", s: "조회만으로는 어떤 정보도 금융사에 전달되지 않아요" },
+        { n: farm.total + "두", t: "마지막으로 산정 대상을<br />정리하고 있어요", s: "조회만으로는 어떤 정보도 금융사에 전달되지 않아요" },
+        { n: farm.steer + "두", t: "내 농장의 축산이력제를<br />모두 확인했어요", s: "곧 결과를 보여드릴게요", done: true }
       ];
+
+      /* 참참이 표정 (Loading/참참이 표정) : 눈 뜸 1.1초 → 감음 → 웃음 1.1초 → 감음 반복 */
+      var BLINK_MS = 160;
+      var FACE_SEQ = [
+        { face: "open",   ms: 1100 },
+        { face: "closed", ms: BLINK_MS },
+        { face: "smile",  ms: 1100 },
+        { face: "closed", ms: BLINK_MS }
+      ];
+      var FACE_CYCLE = FACE_SEQ.reduce(function (sum, f) { return sum + f.ms; }, 0);
+
+      /* 진행 링 : 완료율만큼만 원을 채움 (12시 방향에서 시작, 돌거나 되돌아가지 않음)
+         단계별 완료율(STEP_FILL)을 각 단계 시간 동안 직선으로 이어서 채움 → 끊김 없이 단조 증가 */
+      var STEP_FILL = [0.06, 0.18, 0.30, 0.45, 0.58, 0.72, 0.88, 1.00];
+      function ringAt(t) {
+        var i = Math.min(STEP_FILL.length - 1, Math.floor(t / STEP_MS));
+        var from = i === 0 ? 0 : STEP_FILL[i - 1];
+        var frac = Math.max(0, Math.min(1, (t - i * STEP_MS) / STEP_MS));
+        return from + (STEP_FILL[i] - from) * frac;
+      }
 
       var $ = function (id) { return document.getElementById(id); };
       var arc = $("arc");
+      var faceImgs = document.querySelectorAll("#face img");
       arc.style.strokeDasharray = C;
       arc.style.strokeDashoffset = C;
 
+      var curFace = "open";
       function setFace(name) {
-        document.querySelectorAll("#face img").forEach(function (img) {
+        if (name === curFace) return;
+        curFace = name;
+        faceImgs.forEach(function (img) {
           img.classList.toggle("is-on", img.getAttribute("data-face") === name);
         });
+      }
+
+      function faceAt(t) {
+        var m = t % FACE_CYCLE;
+        for (var i = 0; i < FACE_SEQ.length; i++) {
+          if (m < FACE_SEQ[i].ms) return FACE_SEQ[i].face;
+          m -= FACE_SEQ[i].ms;
+        }
+        return "open";
+      }
+
+      /** 링 : 호의 길이 = 완료율, 호 전체가 원을 따라 계속 회전 (100%면 원이 꽉 차서 회전은 보이지 않음) */
+      var ROT_MS = 1800;   // 한 바퀴 도는 시간
+      function setRing(t) {
+        var angle = -90 + (t / ROT_MS) * 360;
+        arc.style.strokeDashoffset = C * (1 - ringAt(t));
+        arc.style.transform = "rotate(" + angle.toFixed(2) + "deg)";
       }
 
       function setCard(el, state) {
@@ -165,7 +242,7 @@
         el.classList.add("is-" + state);
       }
 
-      var idx = 0, timer = null, blinkTimer = null, finished = false;
+      var elapsed = 0, lastTs = 0, raf = 0, curStep = -1, finished = false;
 
       function render(i) {
         var s = steps[i];
@@ -187,34 +264,43 @@
         }
       }
 
-      function tick() {
-        if (idx >= steps.length) { finish(); return; }
-        render(idx);
-        idx += 1;
+      /** 표정 · 링 · 단계 문구를 하나의 시간축(elapsed)으로 구동 — 나가기 팝업에서는 함께 멈춤 */
+      function frame(ts) {
+        var dt = lastTs ? Math.min(ts - lastTs, 100) : 0;
+        lastTs = ts;
+        elapsed += dt;
+
+        setFace(faceAt(elapsed));
+        setRing(elapsed);
+
+        var step = Math.floor(elapsed / STEP_MS);
+        if (step >= steps.length) { finish(); return; }
+        if (step !== curStep) { curStep = step; render(step); }
+
+        raf = requestAnimationFrame(frame);
       }
 
       function finish() {
         stop();
         if (finished) return;
         finished = true;
-        if (window.self !== window.top) return; // index 미리보기(iframe)에서는 이동하지 않음
+        setFace("smile");
+        setRing(STEP_MS * STEP_FILL.length);
+        if (window.self !== window.top) return; // screens.html 미리보기(iframe)에서는 이동하지 않음
+        cfFarm.setAssessed(); // 자산평가(개체 조회) 완료 상태 저장
         setTimeout(function () { window.location.href = "provide-consent.html"; }, 900);
       }
 
       function start() {
         stop();
-        timer = setInterval(tick, STEP_MS);
-        // 눈 깜빡임 (face-closed) — 1~3 단계에서만
-        blinkTimer = setInterval(function () {
-          if (idx > 3) return;
-          setFace("closed");
-          setTimeout(function () { if (idx <= 3) setFace("open"); }, 140);
-        }, 1600);
+        lastTs = 0;
+        raf = requestAnimationFrame(frame);
       }
 
-      function stop() { clearInterval(timer); clearInterval(blinkTimer); }
+      function stop() { cancelAnimationFrame(raf); }
 
-      tick();
+      render(0); curStep = 0;
+      setRing(0);
       start();
 
       $("exit").addEventListener("click", function () { stop(); cfOverlay("exitDialog", true); });

@@ -22,7 +22,7 @@
 <body>
   <main class="phone">
     <header class="cf-header">
-      <a class="cf-back" data-href="result.html" aria-label="뒤로"><img src="assets/icon-back.svg" alt="" /></a>
+      <a class="cf-back" data-href="provide-consent.html" aria-label="뒤로"><img src="assets/icon-back.svg" alt="" /></a>
     </header>
     <div class="edge-body">
       <div class="edge-face">
@@ -42,12 +42,15 @@
 
     <div class="cf-cta edge-cta-2">
       <a class="cf-btn cf-btn--secondary" data-href="cattle-loading.html">개체 정보 다시 조회하기</a>
-      <a class="cf-btn cf-btn--primary" data-href="home.html">홈으로</a>
+      <a class="cf-btn cf-btn--primary" data-href="home.html" data-cf-entry>홈으로</a>
     </div>
   </main>
 
   <script>
     // 첫 화면을 그리기 전에 농장 값 · 탭 점 채움 (공통 스크립트는 <head> 에서 로드)
+    // 조회 결과 없음: 소 조회는 마쳤고 금융사 조회 결과는 없는 상태로 맞춤 (이전 조회 결과 지움)
+    cfFarm.clearAssessed();
+    cfFarm.setAssessed();
     cfFarm.bind(document);
     cfFarm.syncTabDot();
   </script>

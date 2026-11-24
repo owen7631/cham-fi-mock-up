@@ -2,19 +2,25 @@
  *
  * - 단계는 cfFarm 의 sessionStorage(chamfi.applyStage)에 저장되어 화면 이동 · 새로고침에도 유지됨
  * - data-stage        : 저장값이 없을 때의 단계
- * - data-stage-fixed  : 저장값과 상관없이 data-stage 로 보여 주는 시안 화면 (누르면 다음 단계를 저장)
+ * - data-stage-fixed  : 저장값과 상관없이 data-stage 로 보여 주는 시안 화면.
+ *                       진입하면 보여 주는 상태(신청 · 단계)를 저장해 다른 화면과 맞춤
+ * - 카드는 신청 상태를 새로 만들지 않음 (신청은 조회 결과의 [이 상품으로 신청하기]에서 기록)
+ * - 제목은 신청한 농장 이름으로 표시
  * - 깜빡임 방지를 위해 <head> 에서 불러오고, 카드 마크업 뒤에서 cfApplyCard.init() 으로 바로 그린다
  *   (부르지 않아도 DOMContentLoaded 때 그려짐)
  */
 (function () {
   "use strict";
 
-  var farmName = window.cfFarm ? window.cfFarm.get().name : "부경축공";
-  var STAGES = {
-    2: { title: farmName + " 님, 신청이 접수됐어요", sub: "참참축협에서 심사를 준비하고 있어요" },
-    3: { title: farmName + " 님, 심사가 진행 중이에요", sub: "참참축협에서 신청 내용을 심사하고 있어요" },
-    4: { title: farmName + " 님, 심사 결과가 나왔어요", sub: "참참축협에서 보낸 결과를 확인해 주세요" }
-  };
+  var STAGES = {};
+  function texts() {
+    var v = window.cfFarm ? window.cfFarm.values() : { applyFarm: "부경축공" };
+    STAGES = {
+      2: { title: v.applyFarm + " 님, 신청이 접수됐어요", sub: "참참축협에서 심사를 준비하고 있어요" },
+      3: { title: v.applyFarm + " 님, 심사가 진행 중이에요", sub: "참참축협에서 신청 내용을 심사하고 있어요" },
+      4: { title: v.applyFarm + " 님, 심사 결과가 나왔어요", sub: "참참축협에서 보낸 결과를 확인해 주세요" }
+    };
+  }
   var LABELS = ["신청 진행", "금융사 접수", "심사", "결과 안내"];
 
   function build(card) {
@@ -77,11 +83,18 @@
   }
 
   function init(card) {
-    // 신청 현황 카드가 보이는 화면 = 신청이 진행 중인 상태
-    if (window.cfFarm && !window.cfFarm.applied()) { window.cfFarm.setApplied(); window.cfFarm.syncTabDot(); }
+    var F = window.cfFarm;
     var stage = parseInt(card.getAttribute("data-stage"), 10) || 2;
-    var saved = window.cfFarm ? window.cfFarm.applyStage() : null;
-    if (saved && !card.hasAttribute("data-stage-fixed")) stage = saved;
+    var fixed = card.hasAttribute("data-stage-fixed");
+    if (F && fixed) {
+      // 고정 단계 시안: 보여 주는 상태를 저장 (현재 농장의 신청이 아니면 현재 농장으로 신청한 것으로 맞춤 · 다른 농장 신청 단계를 덮어쓰지 않음)
+      if (F.applied() !== F.get().name) F.setApplied();
+      F.setApplyStage(stage);
+      F.syncTabDot();
+    } else if (F && F.applyStage()) {
+      stage = F.applyStage();
+    }
+    texts();
     var finalHref = card.getAttribute("data-final-href");
     var busy = false;
     card.classList.add("ac");

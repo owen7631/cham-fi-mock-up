@@ -161,7 +161,7 @@
       <a class="cf-tab" data-toast><span class="cf-tab__icon"><img src="assets/tab-orders.svg" alt="" /></span>주문내역</a>
       <a class="cf-tab" data-href="index.html"><span class="cf-tab__icon"><img src="assets/tab-home.svg" alt="" /></span>홈</a>
       <a class="cf-tab" data-toast><span class="cf-tab__icon"><img src="assets/tab-me.svg" alt="" /></span>내정보</a>
-      <a class="cf-tab is-active" data-href="home.html">
+      <a class="cf-tab is-active" data-href="home.html" data-cf-entry>
         <span class="cf-tab__icon">
           <span class="cf-bars"><i></i><i></i><i></i></span>
           <img class="cf-tab__new" src="assets/tab-new-dot.svg" alt="" />
@@ -171,6 +171,9 @@
   </main>
   <script>
     // 첫 화면을 그리기 전에 농장 값 · 탭 점를 채워 깜빡임 방지
+    // 이어서 신청 홈: 소 조회 · 금융사 조회를 마친 상태로 맞춤
+    if (!cfFarm.assessed()) cfFarm.setAssessed();
+    if (!cfFarm.financeChecked()) cfFarm.setFinanceChecked();
     cfFarm.bind(document);
     cfFarm.syncTabDot();
   </script>

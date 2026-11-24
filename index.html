@@ -199,6 +199,8 @@
           if (!farm) return;
           document.getElementById("statusFarm").textContent = farm;
           document.getElementById("statusbar").classList.remove("is-hidden");
+          // 배너를 누르면 신청한 농장 기준의 CHAM-Fi 홈으로 (지금 선택한 농장이 달라도)
+          document.querySelector("#statusbar .statusbar__text").addEventListener("click", function () { cfFarm.set(farm); });
         })();
       </script>
 

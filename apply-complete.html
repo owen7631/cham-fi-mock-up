@@ -81,14 +81,12 @@
   </main>
 
   <script>
-    // 신청이 접수된 농장을 기억 → 쇼핑몰 홈 상단에 '진행 중' 배너 노출
-    cfFarm.setApplied();
-    cfFarm.setApplyStage(2);
     // 첫 화면을 그리기 전에 농장 값 · 탭 점 채움 (공통 스크립트는 <head> 에서 로드)
     cfFarm.bind(document);
     cfFarm.syncTabDot();
   </script>
   <script>
+    // 신청 기록은 조회 결과의 [이 상품으로 신청하기]에서 함 (재방문 · 새로고침으로 진행 단계가 되돌아가지 않도록)
     cfFarm.syncTabDot();
   </script>
 </body>

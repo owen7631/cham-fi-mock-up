@@ -115,12 +115,12 @@
       <button class="agree" id="agree" type="button">
         <span class="cf-check" id="agreeBox" data-check><img class="off" src="assets/checkbox-off.svg" alt="" /><img class="on" src="assets/checkbox-on.svg" alt="" /></span>
         <span class="agree__label"><span class="tag">필수</span><span class="ink">농장·개체 정보 금융사 제공 동의</span></span>
-        <span class="agree__more" data-toast="제공 내용 보기는 프로토타입에 연결되지 않았어요">내용 보기</span>
+        <span class="agree__more" data-open-sheet>내용 보기</span>
       </button>
       <a class="cf-btn cf-btn--primary is-disabled" id="submit">동의하고 금융사 조회하기</a>
     </div>
 
-    <div class="sheet-overlay is-closed" id="sheet">
+    <div class="sheet-overlay" id="sheet">
       <div class="sheet" role="dialog" aria-modal="true">
         <div class="sheet__grab"></div>
         <p class="t-title-md ink">농장·개체 정보 금융사 제공 동의</p>
@@ -146,6 +146,8 @@
   </script>
   <script>
     (function () {
+      // 시안 화면: 보여 주는 보험 상태(가입)를 저장해 다음 화면 금액과 맞춤
+      cfFarm.setInsured(true);
       var ins = document.getElementById("ins");
       var amount = document.getElementById("amount");
       var insSub = document.getElementById("insSub");
@@ -174,12 +176,14 @@
         syncSubmit();
       });
 
+      // 시트가 열린 상태의 시안 — 처음부터 열린 채로 그리고, 닫은 뒤 [내용 보기]로 다시 열 수 있음
       var sheet = document.getElementById("sheet");
-      requestAnimationFrame(function () { requestAnimationFrame(function () { sheet.classList.remove("is-closed"); }); });
-      var sheetOk = document.getElementById("sheetOk");
-      if (sheet && sheetOk) {
-        sheetOk.addEventListener("click", function () { sheet.classList.add("is-closed"); });
-      }
+      document.querySelector("[data-open-sheet]").addEventListener("click", function (e) {
+        e.stopPropagation();
+        sheet.classList.remove("is-closed");
+      });
+      document.getElementById("sheetOk").addEventListener("click", function () { sheet.classList.add("is-closed"); });
+      sheet.addEventListener("click", function (e) { if (e.target === sheet) sheet.classList.add("is-closed"); });
       syncSubmit();
     })();
   </script>

@@ -106,6 +106,12 @@
     },
     clearApplied: function () { write(KEY_APPLIED, ""); write(KEY_STAGE, ""); },
 
+    /** 조회 결과에서 [이 상품으로 신청하기] — 현재 농장으로 새 신청 (금융사 접수 단계부터) */
+    submitApplication: function () {
+      write(KEY_APPLIED, api.get().name);
+      write(KEY_STAGE, "2");
+    },
+
     /** 신청 현황 단계 (2 금융사 접수 · 3 심사 · 4 결과 안내). 저장값이 없으면 null */
     applyStage: function () {
       var n = parseInt(read(KEY_STAGE), 10);
@@ -115,11 +121,20 @@
       if (n >= 2 && n <= 4) write(KEY_STAGE, String(n));
     },
 
-    /** CHAM-Fi 진입 경로: 자산평가를 마친 농장이면 홈, 아니면 농장 선택 */
-    entry: function () { return api.assessed() ? "home.html" : "farm-select.html"; },
+    /** 농장 진행 상태에 맞는 CHAM-Fi 홈 (신청함 → 신청 현황 · 조회 결과 있음 → 이어서 신청 · 소 조회만 → 신청 전). 없으면 null */
+    homeFor: function (name) {
+      name = name || api.get().name;
+      if (read(KEY_APPLIED) === name) return "home.html";
+      if (api.financeChecked(name)) return "edge-home-resume.html";
+      if (api.assessed(name)) return "edge-home-before.html";
+      return null;
+    },
 
-    /** 농장 선택 후 다음 경로: 자산평가를 마친 농장이면 홈(재심사 없이), 아니면 동의 화면 */
-    nextAfterFarm: function (name) { return api.assessed(name) ? "home.html" : "consent.html"; },
+    /** CHAM-Fi 진입 경로: 진행 상태에 맞는 홈, 처음이면 농장 선택 */
+    entry: function () { return api.homeFor() || "farm-select.html"; },
+
+    /** 농장 선택 후 다음 경로: 진행 상태에 맞는 홈(재심사 없이), 처음이면 동의 화면 */
+    nextAfterFarm: function (name) { return api.homeFor(name) || "consent.html"; },
 
     /** 개체 정보 조회(자산 산정)를 마친 농장인지 */
     assessed: function (name) {
@@ -198,7 +213,8 @@
         collateral: money(api.collateral(), insured ? c.collateralOnWon : c.collateralOffWon),
         collateralOn: money(c.collateralOn, c.collateralOnWon),
         collateralOff: money(c.collateralOff, c.collateralOffWon),
-        applyLimit: "최대 " + won(api.limit(3000))
+        applyLimit: "최대 " + won(api.limit(3000)),
+        applyFarm: api.applied() || f.name
       };
     },
 

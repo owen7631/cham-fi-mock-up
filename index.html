@@ -6,6 +6,7 @@
   <title>[M-00-H] 쇼핑몰 홈 · 배너 · 하단 탭 진입 · CHAM-Fi</title>
   <link rel="stylesheet" href="css/chamfi.css" />
   <script src="js/auth.js"></script>
+  <script src="js/farm.js"></script>
   <style>
     .shop-scroll { flex: 1 1 0; min-height: 0; overflow-y: auto; overflow-x: hidden; scrollbar-width: none; background: var(--shop-surface); }
     .shop-scroll::-webkit-scrollbar { display: none; }
@@ -188,6 +189,17 @@
         <a class="statusbar__text" data-href="home.html"><b id="statusFarm"></b>진행 중이신 소 자산 신청이 있어요</a>
         <button class="statusbar__close" id="statusClose" aria-label="닫기"><img src="assets/status-close.svg" width="24" height="24" alt="" /></button>
       </div>
+      <script>
+        // 신청한 농장이 있을 때만 상단 진행 배너 노출 (?applied=1 은 시안 확인용)
+        // 첫 화면을 그리기 전에 정해야 배너가 뒤늦게 튀어나오며 아래 내용이 밀리지 않음
+        (function () {
+          if (/[?&]applied=1/.test(location.search)) window.CF_PREVIEW_APPLIED = true;
+          var farm = cfFarm.applied();
+          if (!farm) return;
+          document.getElementById("statusFarm").textContent = farm;
+          document.getElementById("statusbar").classList.remove("is-hidden");
+        })();
+      </script>
 
       <a class="cf-banner home-banner" data-href="farm-select.html" data-cf-entry aria-label="CHAM-Fi 출시 배너">
         <img class="cf-banner__glow" src="assets/banner-glow.svg" alt="" />
@@ -389,18 +401,9 @@
     </nav>
   </main>
 
-  <script src="js/farm.js"></script>
   <script src="js/chamfi.js"></script>
   <script>
-    // 신청한 농장이 있을 때만 상단 진행 배너 노출 (?applied=1 은 시안 확인용)
-    (function () {
-      if (/[?&]applied=1/.test(location.search)) window.CF_PREVIEW_APPLIED = true;
-      cfFarm.syncTabDot();
-      var farm = cfFarm.applied();
-      if (!farm) return;
-      document.getElementById("statusFarm").textContent = farm;
-      document.getElementById("statusbar").classList.remove("is-hidden");
-    })();
+    cfFarm.syncTabDot();
     document.getElementById("statusClose").addEventListener("click", function () {
       document.getElementById("statusbar").classList.add("is-hidden");
     });

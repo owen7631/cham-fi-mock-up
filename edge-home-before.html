@@ -6,6 +6,8 @@
   <title>[M-10-06-02 · M-09-S1] 신청 전 홈 · CHAM-Fi</title>
   <link rel="stylesheet" href="css/chamfi.css" />
   <script src="js/auth.js"></script>
+  <script src="js/farm.js"></script>
+  <script src="js/chamfi.js"></script>
   <style>
     .home { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; gap: var(--space-5); padding: var(--space-5) var(--space-5) var(--space-4); overflow-x: hidden; overflow-y: auto; scrollbar-width: none; }
     .home::-webkit-scrollbar { display: none; }
@@ -134,8 +136,10 @@
       </a>
     </nav>
   </main>
-
-  <script src="js/farm.js"></script>
-  <script src="js/chamfi.js"></script>
+  <script>
+    // 첫 화면을 그리기 전에 농장 값 · 탭 점를 채워 깜빡임 방지
+    cfFarm.bind(document);
+    cfFarm.syncTabDot();
+  </script>
 </body>
 </html>

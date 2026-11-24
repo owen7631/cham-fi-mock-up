@@ -112,5 +112,13 @@
     });
   }
 
-  Array.prototype.forEach.call(document.querySelectorAll("[data-applycard]"), init);
+  function initAll() {
+    Array.prototype.forEach.call(document.querySelectorAll("[data-applycard]"), function (card) {
+      if (!card.classList.contains("ac")) init(card);
+    });
+  }
+
+  window.cfApplyCard = { init: initAll };
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initAll);
+  else initAll();
 })();

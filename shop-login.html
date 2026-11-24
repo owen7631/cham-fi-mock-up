@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>[M-00-L] 비로그인 진입 · 쇼핑몰 로그인 · CHAM-Fi</title>
   <link rel="stylesheet" href="css/chamfi.css" />
+  <script src="js/auth.js"></script>
   <style>
     .login { padding: 0 15px; }
     .login__title { margin-top: 30px; text-align: center; font-size: var(--fs-24); font-weight: var(--font-weight-bold); color: var(--shop-text); line-height: 29px; }
@@ -85,7 +86,7 @@
         로그인 상태 유지
       </div>
 
-      <a class="login__btn login__btn--main" data-href="shop-home.html">로그인</a>
+      <a class="login__btn login__btn--main" data-login>로그인</a>
 
       <p class="login__member">참참바이오는 회원제로 운영되고 있습니다.</p>
       <div class="login__links">
@@ -95,10 +96,10 @@
       </div>
 
       <div class="login__social">
-        <a class="login__btn login__btn--kakao" data-href="shop-home.html">
+        <a class="login__btn login__btn--kakao" data-login>
           <img src="assets/kakao-bubble.svg" alt="" />카카오 로그인
         </a>
-        <a class="login__btn login__btn--naver" data-href="shop-home.html">
+        <a class="login__btn login__btn--naver" data-login>
           <img src="assets/naver-n.svg" alt="" />네이버 로그인
         </a>
       </div>

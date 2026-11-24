@@ -187,6 +187,21 @@
   --shop-gray-2: #eeeeee;
   --shop-text-2: #777777;
   --shop-quick-bg: #f4f3ee;
+  --shop-primary-soft: #f5f7f2;        /* 날씨 섹션 배경 (ecommerce --color-primary-soft) */
+  --shop-quick-circle: #f5f6f1;        /* 빠른 메뉴 원 */
+  --shop-quick-circle-line: #eceee8;
+  --shop-tab-gray: #eff0f1;            /* 질병 카드 탭 헤더 */
+  --shop-week-ring: #0000000a;         /* 주간 날씨 셀 링 (black 4%) */
+  --shop-alert-line: #d92d2059;        /* 날씨 팁 칩 테두리 (alert 35%) */
+  --shop-tag-green-bg: #e8f5e9;        /* 상품 태그(규격) */
+  --shop-tag-green-text: #2e7d32;
+  --shop-tag-orange-bg: #fff3e0;       /* 상품 태그(원산지) */
+  --shop-tag-orange-text: #e67e22;
+  --shop-up: #d32f2f;                  /* 시세 상승 */
+  --shop-down: #074ce0;                /* 시세 하락 */
+  --shop-fab-bg: rgba(47, 75, 45, 0.9);  /* 위로 가기 버튼 · 녹색 90% (Figma 4677:22054) */
+  --shop-app-from: #2e4a2c;            /* 앱 설치 배너 */
+  --shop-app-to: #405f3a;
   --shop-ai-from: #2f9e6b;
   --shop-ai-mid: #3a62d8;
   --shop-ai-to: #8c4fe0;
@@ -207,7 +222,7 @@
   --shop-news-b-from: #e9e4f4;  --shop-news-b-to: #c8bfe3;
 
   /* ------------------------------------------------------------------------
-     목업 전용 · 목업 목록(index.html) 화면
+     목업 전용 · 목업 목록(screens.html) 화면
      ------------------------------------------------------------------------ */
   --index-bg: #14161a;
   --index-text: #e9edf5;

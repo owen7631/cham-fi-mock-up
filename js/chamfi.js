@@ -73,6 +73,7 @@
    *
    * 시나리오 필드: href = 이동할 화면 / assessed = 자산평가(소 조회) 완료
    *               finance = 금융사 조회 완료 / applied = 신청 접수 / stage = 신청 현황 단계(2~4)
+   *               result = 심사 결과 ("no" 진행이 어려움, 기본 "ok")
    * ----------------------------------------------------------------------- */
   var DEMO_GROUPS = [
     { title: "처음 · 진행 화면", items: [
@@ -93,7 +94,7 @@
     ] },
     { title: "심사 결과", items: [
       { key: "result-ok", label: "심사 결과 · 진행 가능", desc: "금융사 통지 내용", href: "apply-detail.html", assessed: true, finance: true, applied: true, stage: 4 },
-      { key: "result-no", label: "심사 결과 · 진행이 어려움", desc: "금융사 통지 내용", href: "edge-apply-stalled.html", assessed: true, finance: true, applied: true, stage: 4 }
+      { key: "result-no", label: "심사 결과 · 진행이 어려움", desc: "금융사 통지 내용", href: "edge-apply-stalled.html", assessed: true, finance: true, applied: true, stage: 4, result: "no" }
     ] },
     { title: "오류 · 빈 상태", items: [
       { key: "cattle-fail", label: "이력제 조회 실패", desc: "소 조회 중 실패", href: "edge-loading-failed.html" },
@@ -124,7 +125,7 @@
       F.clearApplied();
       if (sc.assessed) F.setAssessed(farmName);
       if (sc.finance) F.setFinanceChecked(farmName);
-      if (sc.applied) { F.setApplied(farmName); F.setApplyStage(sc.stage || 2); }
+      if (sc.applied) { F.setApplied(farmName); F.setApplyStage(sc.stage || 2); F.setApplyResult(sc.result || "ok"); }
     }
     if (A) {
       if (sc.key === "start") A.logout();

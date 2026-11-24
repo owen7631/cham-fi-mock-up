@@ -5,7 +5,7 @@
  * - data-stage-fixed  : 저장값과 상관없이 data-stage 로 보여 주는 시안 화면.
  *                       진입하면 보여 주는 상태(신청 · 단계)를 저장해 다른 화면과 맞춤
  * - 카드는 신청 상태를 새로 만들지 않음 (신청은 조회 결과의 [이 상품으로 신청하기]에서 기록)
- * - 제목은 신청한 농장 이름으로 표시
+ * - 제목은 신청한 농장, 문구는 신청한 금융사 · 4단계 [결과 확인하기]는 심사 결과에 맞는 화면으로 이동
  * - 깜빡임 방지를 위해 <head> 에서 불러오고, 카드 마크업 뒤에서 cfApplyCard.init() 으로 바로 그린다
  *   (부르지 않아도 DOMContentLoaded 때 그려짐)
  */
@@ -14,11 +14,11 @@
 
   var STAGES = {};
   function texts() {
-    var v = window.cfFarm ? window.cfFarm.values() : { applyFarm: "부경축공" };
+    var v = window.cfFarm ? window.cfFarm.values() : { applyFarm: "부경축공", bankName: "참참축협" };
     STAGES = {
-      2: { title: v.applyFarm + " 님, 신청이 접수됐어요", sub: "참참축협에서 심사를 준비하고 있어요" },
-      3: { title: v.applyFarm + " 님, 심사가 진행 중이에요", sub: "참참축협에서 신청 내용을 심사하고 있어요" },
-      4: { title: v.applyFarm + " 님, 심사 결과가 나왔어요", sub: "참참축협에서 보낸 결과를 확인해 주세요" }
+      2: { title: v.applyFarm + " 님, 신청이 접수됐어요", sub: v.bankName + "에서 심사를 준비하고 있어요" },
+      3: { title: v.applyFarm + " 님, 심사가 진행 중이에요", sub: v.bankName + "에서 신청 내용을 심사하고 있어요" },
+      4: { title: v.applyFarm + " 님, 심사 결과가 나왔어요", sub: v.bankName + "에서 보낸 결과를 확인해 주세요" }
     };
   }
   var LABELS = ["신청 진행", "금융사 접수", "심사", "결과 안내"];
@@ -96,6 +96,7 @@
     }
     texts();
     var finalHref = card.getAttribute("data-final-href");
+    if (F && F.applyResult() === "no") finalHref = "edge-apply-stalled.html";
     var busy = false;
     card.classList.add("ac");
     card.setAttribute("role", "button");

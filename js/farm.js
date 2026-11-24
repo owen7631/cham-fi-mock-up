@@ -4,6 +4,7 @@
  * - 보험 가입 여부(M-04 · 가축재해보험)도 함께 저장되어 담보가치인정액과 한도에 반영됨
  * - 자산평가 진행 상태(개체 조회 완료 · 금융사 조회 완료)도 함께 저장됨
  * - 신청 현황 단계(2 금융사 접수 · 3 심사 · 4 결과 안내)도 함께 저장됨 (M-09 신청 현황 카드)
+ * - 신청한 상품(금융사)과 심사 결과(진행 가능 · 진행이 어려움)도 함께 저장됨
  * - 화면 목록(screens.html) 미리보기 iframe 안에서는 sessionStorage 를 읽지도 쓰지도 않음 (기본값 + 메모리)
  * - 마크업 규칙: data-f="키" → 텍스트 교체 / data-f-width="share" → 막대 너비 교체
  *
@@ -41,14 +42,19 @@
   var KEY_ASSESSED = "chamfi.assessed";   // 개체 정보 조회(자산 산정) 완료한 농장 이름
   var KEY_FINANCE = "chamfi.financeChecked"; // 금융사 조회 완료한 농장 이름
   var KEY_STAGE = "chamfi.applyStage";       // 신청 현황 단계 (2~4)
+  var KEY_PRODUCT = "chamfi.applyProduct";   // 신청한 상품 id (PRODUCTS)
+  var KEY_RESULT = "chamfi.applyResult";     // 심사 결과 "ok" | "no"
   var memory = {};
 
   /** 금융사 상품 (금융사 조회 · 조회 결과 · 신청 화면 공용). limitBase 는 부경축공 · 보험 가입 기준 한도(만 원) */
   var PRODUCTS = {
-    chukhyup: { id: "chukhyup", name: "참참축협",   product: "축우담보 운영자금", limitBase: 10000 },
-    bank:     { id: "bank",     name: "참참은행",   product: "축산 운영자금대출", limitBase: 8000 },
-    capital:  { id: "capital",  name: "참참캐피탈", product: "축우담보대출",     limitBase: 12000 }
+    chukhyup: { id: "chukhyup", name: "참참축협",   product: "축우담보 운영자금", rate: "연 4.6~5.2%", approvedRate: "연 5.2%", limitBase: 10000 },
+    bank:     { id: "bank",     name: "참참은행",   product: "축산 운영자금대출", rate: "연 5.1~5.9%", approvedRate: "연 5.9%", limitBase: 8000 },
+    capital:  { id: "capital",  name: "참참캐피탈", product: "축우담보대출",     rate: "연 7.9~9.4%", approvedRate: "연 9.4%", limitBase: 12000 }
   };
+  var DEFAULT_PRODUCT = "chukhyup";
+  var APPROVED_RATIO = 0.3;   // 심사 승인 한도 = 상품 최대 한도의 30% (참참축협 1억 → 3,000만 원, 기존 시안 값)
+  // 승인 금리(approvedRate)는 조회 금리 범위의 상단 (참참축협 연 5.2%, 기존 시안 값)
 
   // 저장은 sessionStorage(탭 단위) — 화면 이동 · 새로고침에도 값이 유지되고, 탭을 닫으면 사라진다.
   // 화면 목록의 미리보기(iframe)는 실제 세션 상태를 바꾸지 않도록 메모리만 쓴다.
@@ -104,13 +110,25 @@
       if (read(KEY_APPLIED) !== name) write(KEY_STAGE, "2");   // 새 신청은 금융사 접수 단계부터
       write(KEY_APPLIED, name);
     },
-    clearApplied: function () { write(KEY_APPLIED, ""); write(KEY_STAGE, ""); },
+    clearApplied: function () {
+      write(KEY_APPLIED, ""); write(KEY_STAGE, ""); write(KEY_PRODUCT, ""); write(KEY_RESULT, "");
+    },
 
     /** 조회 결과에서 [이 상품으로 신청하기] — 현재 농장으로 새 신청 (금융사 접수 단계부터) */
-    submitApplication: function () {
+    submitApplication: function (productId) {
       write(KEY_APPLIED, api.get().name);
       write(KEY_STAGE, "2");
+      write(KEY_PRODUCT, PRODUCTS[productId] ? productId : DEFAULT_PRODUCT);
+      write(KEY_RESULT, "");
     },
+
+    /** 신청한 상품 (없으면 참참축협) */
+    applyProduct: function () { return PRODUCTS[read(KEY_PRODUCT)] || PRODUCTS[DEFAULT_PRODUCT]; },
+    setApplyProduct: function (id) { if (PRODUCTS[id]) write(KEY_PRODUCT, id); },
+
+    /** 심사 결과: "no"(진행이 어려움) 가 아니면 "ok" */
+    applyResult: function () { return read(KEY_RESULT) === "no" ? "no" : "ok"; },
+    setApplyResult: function (r) { write(KEY_RESULT, r === "no" ? "no" : "ok"); },
 
     /** 신청 현황 단계 (2 금융사 접수 · 3 심사 · 4 결과 안내). 저장값이 없으면 null */
     applyStage: function () {
@@ -213,8 +231,11 @@
         collateral: money(api.collateral(), insured ? c.collateralOnWon : c.collateralOffWon),
         collateralOn: money(c.collateralOn, c.collateralOnWon),
         collateralOff: money(c.collateralOff, c.collateralOffWon),
-        applyLimit: "최대 " + won(api.limit(3000)),
-        applyFarm: api.applied() || f.name
+        applyLimit: "최대 " + won(api.limit(api.applyProduct().limitBase * APPROVED_RATIO)),
+        applyRate: api.applyProduct().approvedRate,
+        applyFarm: api.applied() || f.name,
+        bankName: api.applyProduct().name,
+        bankProduct: api.applyProduct().product
       };
     },
 

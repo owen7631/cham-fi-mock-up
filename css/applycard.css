@@ -1,0 +1,102 @@
+/* -------------------------------------------------------------------------
+   ApplyStatus 카드 (M-09 · 신청 현황) — 단계가 바뀔 때 움직이는 카드
+   data-stage: 2 금융사 접수 · 3 심사 · 4 결과 안내
+   ------------------------------------------------------------------------- */
+.ac {
+  --ac-dur: 0.45s;
+  --ac-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-5);
+  border: 1px solid var(--chamfi-line);
+  border-radius: var(--radius-xl);
+  background: var(--chamfi-bg);
+  text-align: left;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.1s;
+}
+.ac:active { transform: scale(0.995); }
+.ac:focus-visible { outline: 2px solid var(--chamfi-selected-line); outline-offset: 2px; }
+
+/* 제목 · 보조 문구 */
+.ac__top { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-3); }
+.ac__head {
+  display: flex; flex-direction: column; gap: var(--extra-gap-2);
+  transition: opacity 0.16s ease, transform 0.16s ease;
+}
+.ac.is-swap .ac__head { opacity: 0; transform: translateY(-4px); }
+.ac.is-enter .ac__head { opacity: 0; transform: translateY(6px); transition: none; }
+.ac__chev {
+  flex: none; width: 20px; height: 20px; margin-top: 2px;
+  opacity: 0; transform: translateX(-6px);
+  transition: opacity var(--ac-dur) var(--ac-ease), transform var(--ac-dur) var(--ac-ease);
+}
+.ac[data-stage="4"] .ac__chev { opacity: 1; transform: translateX(0); }
+
+/* 진행 단계 */
+.ac__steps { display: flex; width: 100%; margin-top: var(--space-4); }
+.ac__step { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: var(--space-2); }
+.ac__track { display: flex; align-items: center; width: 100%; height: 34px; }
+
+.ac__line { position: relative; flex: 1 1 0; min-width: 1px; height: 2px; background: var(--chamfi-line); overflow: hidden; }
+.ac__line::after {
+  content: ""; position: absolute; inset: 0;
+  background: var(--chamfi-primary);
+  transform: scaleX(0); transform-origin: left center;
+  transition: transform 0.25s var(--ac-ease), background-color 0.25s var(--ac-ease);
+}
+.ac__line--r::after { background: var(--chamfi-primary); }
+.ac__line.is-on::after { transform: scaleX(1); }
+.ac__line.is-next::after { background: var(--chamfi-ink); transform: scaleX(1); }
+.ac__line.is-hidden { opacity: 0; }
+/* 오른쪽 선이 먼저 차오른 뒤 다음 단계의 왼쪽 선이 이어서 차오름 */
+.ac__line--l::after { transition-delay: 0.2s; }
+.ac__line--l.is-on::after, .ac__line--l.is-next::after { transition-delay: 0.2s; }
+
+.ac__dot {
+  flex: none; box-sizing: border-box;
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--chamfi-surface);
+  border: 2px solid var(--chamfi-line);
+  transition:
+    width 0.3s var(--ac-ease), height 0.3s var(--ac-ease),
+    background-color 0.3s var(--ac-ease), border-color 0.3s var(--ac-ease),
+    box-shadow 0.3s var(--ac-ease);
+}
+.ac__step.is-done .ac__dot { background: var(--chamfi-primary); border-color: var(--chamfi-primary); }
+.ac__step.is-current .ac__dot {
+  width: 16px; height: 16px;
+  background: var(--chamfi-primary); border-color: var(--chamfi-primary);
+  box-shadow: 0 0 0 4px var(--chamfi-selected-line);
+  transition-delay: 0.4s;
+}
+.ac__step.is-pop .ac__dot { animation: ac-pop 0.5s 0.4s var(--ac-ease) both; }
+@keyframes ac-pop {
+  0%   { transform: scale(0.55); }
+  60%  { transform: scale(1.22); }
+  100% { transform: scale(1); }
+}
+.ac__label {
+  font: var(--type-caption-weight) var(--type-caption-size)/var(--type-caption-line) var(--font-family);
+  white-space: nowrap;
+  color: var(--chamfi-ink-subtle);
+  transition: color 0.3s var(--ac-ease) 0.3s;
+}
+.ac__step.is-done .ac__label, .ac__step.is-current .ac__label { color: var(--chamfi-ink); }
+
+/* 결과 확인하기 (4단계에서만 펼쳐짐) */
+.ac__cta {
+  display: grid; grid-template-rows: 0fr;
+  margin-top: 0; opacity: 0;
+  transition: grid-template-rows var(--ac-dur) var(--ac-ease), margin-top var(--ac-dur) var(--ac-ease), opacity 0.3s ease;
+}
+.ac__cta > div { min-height: 0; overflow: hidden; }
+.ac[data-stage="4"] .ac__cta { grid-template-rows: 1fr; margin-top: var(--space-4); opacity: 1; transition-delay: 0.35s, 0.35s, 0.5s; }
+.ac .cf-btn { height: 48px; filter: none; gap: var(--space-2); }
+
+@media (prefers-reduced-motion: reduce) {
+  .ac, .ac * { transition-duration: 0.01s !important; transition-delay: 0s !important; animation: none !important; }
+}

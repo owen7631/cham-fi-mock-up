@@ -1,0 +1,12 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="240" height="240" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="spinner">
+<path id="arc" d="M120 0C140.851 -9.11442e-07 161.343 5.43323 179.455 15.7642C197.567 26.0952 212.675 40.9674 223.289 58.915C233.903 76.8627 239.658 97.2663 239.985 118.115C240.313 138.964 235.202 159.538 225.157 177.81L180.991 153.53C186.817 142.932 189.781 130.999 189.591 118.907C189.401 106.814 186.064 94.9804 179.908 84.5707C173.751 74.1611 164.989 65.5352 154.484 59.5432C143.979 53.5513 132.094 50.4 120 50.4L120 0Z" fill="url(#paint0_linear_0_64)"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_64" x1="-118" y1="-3.46377e-06" x2="143.177" y2="259.441" gradientUnits="userSpaceOnUse">
+<stop stop-color="#87A5D2" stop-opacity="0"/>
+<stop offset="0.475962" stop-color="#4E72A9" stop-opacity="0"/>
+<stop offset="0.9375" stop-color="#224B8E"/>
+</linearGradient>
+</defs>
+</svg>

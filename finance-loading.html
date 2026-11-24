@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[M-05 · M-06] 금융사 조회 중 · CHAM-Fi</title>
+  <link rel="stylesheet" href="css/chamfi.css" />
+  <style>
+    .fin { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; gap: var(--space-10); padding: var(--space-10) var(--space-5) var(--space-4); overflow: hidden; }
+    .fin__top { display: flex; flex-direction: column; align-items: center; gap: var(--space-6); }
+    .fin__title { width: 100%; text-align: center; min-height: 60px; }
+
+    .ring { position: relative; width: 240px; height: 264px; flex: none; }
+    .ring img { position: absolute; left: 0; top: 0; width: 240px; height: 240px; }
+    .ring__spin { animation: spin 1.3s linear infinite; transform-origin: 120px 120px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .ring .ring__shadow { left: 60px; top: 250px; width: 120px; height: 14px; }
+    .ring__num {
+      position: absolute; left: 39px; top: 86px; width: 120px;
+      text-align: right;
+      font-size: var(--type-ring-number-size); line-height: 1.1; font-weight: var(--type-ring-number-weight); color: var(--extra-ring-number);
+      font-variant-numeric: tabular-nums;
+    }
+    .ring__unit { position: absolute; left: 152px; top: 106px; padding: var(--space-2); font-size: var(--type-ring-unit-size); line-height: 1.1; font-weight: var(--type-ring-unit-weight); color: var(--extra-ring-unit); }
+
+    .fin__list { display: flex; flex-direction: column; gap: var(--space-6); }
+    .rows { display: flex; flex-direction: column; gap: var(--space-2); }
+  </style>
+</head>
+<body>
+  <main class="phone">
+    <header class="cf-header cf-header--exit">
+      <button class="cf-exit" id="exit" type="button">나가기</button>
+    </header>
+
+    <div class="fin">
+      <div class="fin__top">
+        <h1 class="t-title-xl ink fin__title" id="title">제휴 금융사에<br />확인 요청 중이예요</h1>
+        <div class="ring" aria-label="조회 진행률">
+          <img src="assets/fin-track.svg" alt="" />
+          <img class="ring__spin" src="assets/fin-spinner.svg" alt="" />
+          <p class="ring__num" id="num">12</p>
+          <p class="ring__unit">%</p>
+          <img class="ring__shadow" src="assets/fin-shadow.svg" alt="" />
+        </div>
+      </div>
+
+      <div class="fin__list">
+        <p class="cf-notice cf-notice--strong">조회만으로는 신용점수에 영향이 없어요</p>
+        <div class="rows" id="rows"></div>
+      </div>
+
+      <div class="cf-spacer"></div>
+    </div>
+
+    <!-- 나가기 확인 팝업 (M-05-X) -->
+    <div class="cf-overlay" id="exitDialog">
+      <div class="cf-dialog" role="dialog" aria-modal="true">
+        <div class="cf-dialog__text">
+          <p class="t-title-md ink">금융사 조회를 그만할까요?</p>
+          <p class="t-body-sm ink-muted">지금 나가면 조회가 취소돼요.<br />다시 조회하면 금리와 한도가 달라질 수 있어요.</p>
+        </div>
+        <div class="cf-dialog__actions">
+          <a class="cf-dialog__btn cf-dialog__btn--secondary" data-href="shop-home.html">나가기</a>
+          <button class="cf-dialog__btn cf-dialog__btn--primary" id="keepGoing" type="button">계속 조회하기</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/chamfi.js"></script>
+  <script>
+    (function () {
+      var TOTAL_STEPS = 24;      // 24단계
+      var STEP_MS = 260;         // 약 6.2초
+      var START = 12, END = 99;  // 숫자는 12에서 99까지
+
+      var banks = [
+        { badge: "축", color: "var(--extra-badge-chukhyup)", name: "참참축협",   sub: "축우담보 운영자금", rate: "연 4.6~5.2%", limit: "최대 1억 원" },
+        { badge: "은", color: "var(--extra-badge-bank-strong)", name: "참참은행",   sub: "축산 운영자금대출", rate: "연 5.1~5.9%", limit: "최대 8,000만 원" },
+        { badge: "캐", color: "var(--extra-badge-capital-strong)", name: "참참캐피탈", sub: "축우담보대출",     rate: "연 7.9~9.4%", limit: "최대 1억 2,000만 원" }
+      ];
+
+      var stages = [
+        "제휴 금융사에<br />확인 요청 중이예요",
+        "알림이 많이 와도<br />놀라지 마세요",
+        "거의 다 됐어요<br />10초 안에 조회가 끝나요"
+      ];
+
+      var $ = function (id) { return document.getElementById(id); };
+      var rowsEl = $("rows");
+      var shown = 0, step = 0, timer = null, finished = false;
+
+      function addRow(b) {
+        var el = document.createElement("div");
+        el.className = "cf-resultrow";
+        el.innerHTML =
+          '<div class="cf-badge cf-badge--36" style="background:' + b.color + '">' + b.badge + "</div>" +
+          '<div class="cf-resultrow__text"><p class="t-title-md ink">' + b.name + '</p><p class="t-body-sm ink-muted">' + b.sub + "</p></div>" +
+          '<div class="cf-resultrow__rate"><p class="t-price primary">' + b.rate + '</p><p class="t-body-sm ink-muted">' + b.limit + "</p></div>";
+        rowsEl.appendChild(el);
+      }
+
+      function render() {
+        var ratio = step / TOTAL_STEPS;
+        $("num").textContent = Math.round(START + (END - START) * ratio);
+        var stage = ratio < 1 / 3 ? 0 : ratio < 2 / 3 ? 1 : 2;
+        $("title").innerHTML = stages[stage];
+        while (shown < stage + 1) { addRow(banks[shown]); shown += 1; }
+      }
+
+      function tick() {
+        if (step >= TOTAL_STEPS) { finish(); return; }
+        step += 1;
+        render();
+      }
+
+      function finish() {
+        stop();
+        if (finished) return;
+        finished = true;
+        if (window.self !== window.top) return; // index 미리보기(iframe)에서는 이동하지 않음
+        setTimeout(function () { window.location.href = "result.html"; }, 700);
+      }
+
+      function start() { stop(); timer = setInterval(tick, STEP_MS); }
+      function stop() { clearInterval(timer); }
+
+      render();
+      start();
+
+      $("exit").addEventListener("click", function () { stop(); cfOverlay("exitDialog", true); });
+      $("keepGoing").addEventListener("click", function () { cfOverlay("exitDialog", false); if (!finished) start(); });
+    })();
+  </script>
+</body>
+</html>

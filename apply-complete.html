@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[M-08] 신청 완료 · CHAM-Fi</title>
+  <link rel="stylesheet" href="css/chamfi.css" />
+  <style>
+    .done { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; align-items: center; gap: var(--space-6); padding: var(--extra-space-96) var(--space-5) var(--space-4); overflow: hidden; }
+
+    .stage { position: relative; flex: none; width: 168px; height: 168px; }
+    .stage .cf-face { width: 168px; height: 168px; background: var(--chamfi-notice-bg); }
+    .stage .cf-face img { top: 6.86px; }
+    .stage__badge { position: absolute; left: 117px; top: 123px; width: 46px; height: 46px; animation: pop 0.45s 0.25s cubic-bezier(0.3, 1.6, 0.5, 1) both; }
+    @keyframes pop { from { transform: scale(0); } to { transform: scale(1); } }
+
+    .status { display: flex; flex-direction: column; gap: var(--space-4); width: 100%; padding: var(--space-5); border-radius: var(--radius-xl); background: var(--chamfi-bg); }
+  </style>
+</head>
+<body>
+  <main class="phone">
+    <div class="done">
+      <div class="stage">
+        <div class="cf-face">
+          <img src="assets/face-wink.png" alt="" class="is-on" />
+        </div>
+        <img class="stage__badge" src="assets/badge-check.svg" alt="" />
+      </div>
+
+      <div class="cf-title cf-title--center" style="width:100%">
+        <h1 class="t-title-xl ink">참참축협에 신청을 보냈어요</h1>
+        <p class="t-body-sm ink-muted">축우담보 운영자금 · 담당자가 3영업일 안에 연락드려요</p>
+      </div>
+
+      <div class="status">
+        <p class="t-title-sm ink">진행 현황</p>
+        <div class="cf-progress">
+          <div class="cf-step">
+            <div class="cf-step__track">
+              <span class="cf-step__line cf-step__line--on cf-step__line--hidden"></span>
+              <img class="cf-step__dot" src="assets/step-done.svg" alt="" />
+              <span class="cf-step__line cf-step__line--on"></span>
+            </div>
+            <p class="cf-step__label">신청 진행</p>
+          </div>
+          <div class="cf-step">
+            <div class="cf-step__track cf-step__track--current"><img src="assets/step-current-m08.svg" alt="" /></div>
+            <p class="cf-step__label">금융사 접수</p>
+          </div>
+          <div class="cf-step cf-step--todo">
+            <div class="cf-step__track">
+              <span class="cf-step__line"></span>
+              <img class="cf-step__dot" src="assets/step-todo.svg" alt="" />
+              <span class="cf-step__line"></span>
+            </div>
+            <p class="cf-step__label">심사</p>
+          </div>
+          <div class="cf-step cf-step--todo">
+            <div class="cf-step__track">
+              <span class="cf-step__line"></span>
+              <img class="cf-step__dot" src="assets/step-todo.svg" alt="" />
+              <span class="cf-step__line cf-step__line--hidden"></span>
+            </div>
+            <p class="cf-step__label">결과 안내</p>
+          </div>
+        </div>
+      </div>
+
+      <p class="cf-notice" style="width:100%">심사·실행은 참참축협에서 진행돼요<br />대출 이용은 사료 구매와 무관해요</p>
+
+      <div class="cf-spacer"></div>
+    </div>
+
+    <div class="cf-cta">
+      <a class="cf-btn cf-btn--secondary" data-href="shop-home.html">쇼핑몰로 돌아 가기</a>
+      <a class="cf-btn cf-btn--primary" data-href="home.html">CHAM-Fi 홈으로</a>
+    </div>
+  </main>
+
+  <script src="js/chamfi.js"></script>
+</body>
+</html>

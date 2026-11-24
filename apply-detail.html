@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[M-08-R] 신청 상세 · 심사 결과 · CHAM-Fi</title>
+  <link rel="stylesheet" href="css/chamfi.css" />
+  <style>
+    .detail { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; gap: var(--space-10); padding: var(--space-5) var(--space-5) var(--space-4); overflow: hidden; }
+    .detail__title { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-2); }
+    .detail__stack { display: flex; flex-direction: column; gap: var(--space-6); }
+
+    .result {
+      display: flex; flex-direction: column; gap: var(--space-4);
+      padding: var(--space-5);
+      border: 1px solid var(--chamfi-line); border-radius: var(--radius-xl);
+      background: var(--chamfi-surface);
+    }
+    .result__head { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-2); }
+    .chip-source {
+      padding: var(--space-1) var(--extra-gap-10); border-radius: var(--radius-pill);
+      background: var(--chamfi-notice-bg); color: var(--chamfi-primary);
+      font: var(--type-micro-weight) var(--type-micro-size)/var(--type-micro-line) var(--font-family); white-space: nowrap;
+    }
+    .rows { display: flex; flex-direction: column; gap: var(--space-1); }
+    .rows div { display: flex; justify-content: space-between; font: var(--type-body-weight) var(--type-body-size)/var(--type-body-line) var(--font-family); white-space: nowrap; }
+    .rows dt { color: var(--chamfi-ink-muted); }
+    .rows dd { margin: 0; font-weight: var(--font-weight-semibold); color: var(--chamfi-ink); text-align: right; }
+  </style>
+</head>
+<body>
+  <main class="phone">
+    <header class="cf-header">
+      <a class="cf-back" data-href="home.html" aria-label="뒤로"><img src="assets/icon-back-08r.svg" alt="" /></a>
+    </header>
+
+    <div class="detail">
+      <div class="detail__title">
+        <span class="cf-chip">축우담보 운영자금 · 11.27 통지</span>
+        <h1 class="t-headline ink">참참축협에서<br />심사 결과를 알려 왔어요</h1>
+      </div>
+
+      <div class="detail__stack">
+        <section class="result">
+          <div class="result__head">
+            <span class="chip-source">참참축협이 보낸 내용</span>
+            <p class="t-title-xl ink">대출을 진행할 수 있어요</p>
+          </div>
+          <dl class="rows" style="margin:0">
+            <div><dt>한도</dt><dd>최대 3,000만 원</dd></div>
+            <div><dt>금리</dt><dd>연 5.2%</dd></div>
+            <div><dt>기간</dt><dd>12개월</dd></div>
+            <div><dt>유효 기한</dt><dd>12.11까지</dd></div>
+          </dl>
+        </section>
+
+        <p class="cf-notice">약정과 실행은 참참축협에서 진행돼요<br />금융 담당자가 영업일 기준 2일 안에 연락드려요</p>
+
+        <p class="t-caption ink-subtle">위 내용은 참참축협이 보낸 결과이며 CHAM-Fi가 정한 것이 아니에요. 대출 이용은 사료 구매와 무관해요.</p>
+      </div>
+
+      <div class="cf-spacer"></div>
+    </div>
+
+    <div class="cf-cta">
+      <a class="cf-btn cf-btn--secondary" data-toast="참참축협 사이트 연결은 프로토타입에 포함되지 않았어요">참참축협 사이트로 연결하기</a>
+      <a class="cf-btn cf-btn--primary" data-href="home.html">CHAM-Fi 홈으로</a>
+    </div>
+  </main>
+
+  <script src="js/chamfi.js"></script>
+</body>
+</html>

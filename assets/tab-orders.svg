@@ -1,0 +1,6 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="IconFill">
+<path id="fill" d="M8.4 2.91667H19.6C21.35 2.91667 22.75 4.31667 22.75 6.06667V21.9333C22.75 23.6833 21.35 25.0833 19.6 25.0833H8.4C6.65 25.0833 5.25 23.6833 5.25 21.9333V6.06667C5.25 4.31667 6.65 2.91667 8.4 2.91667Z" fill="#C3CCDA"/>
+<path id="cut" d="M9.91667 9.33333H18.0833M9.91667 14H18.0833M9.91667 18.6667H14.5833" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" stroke="white"/>
+</g>
+</svg>

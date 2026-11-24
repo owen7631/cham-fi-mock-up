@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[M-00] 쇼핑몰 결제 완료 · 배너 진입 · CHAM-Fi</title>
+  <link rel="stylesheet" href="css/chamfi.css" />
+  <style>
+    .order { padding: 0; }
+    .order__head { margin-top: 30px; text-align: center; }
+    .order__head h1 { font-size: var(--fs-24); line-height: 29px; font-weight: var(--font-weight-bold); color: var(--shop-text); }
+    .order__head p { margin-top: 5px; font-size: var(--fs-16); line-height: 19px; color: var(--shop-sub); }
+
+    .order__sec { padding: 0 15px; }
+    .order__h2 { font-size: var(--fs-20); line-height: 20px; font-weight: var(--font-weight-bold); color: var(--shop-text); }
+    .order__bar { height: 10px; background: var(--shop-bg-gray); }
+
+    .order__no { margin-top: 15px; font-size: var(--fs-14); line-height: 20px; color: var(--shop-sub); }
+
+    .order__item { display: flex; gap: 10px; margin-top: 10px; }
+    .order__thumb { flex: none; width: 75px; height: 75px; border: 1px solid var(--shop-line); border-radius: 8px; overflow: hidden; }
+    .order__thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .order__name { margin-top: 3px; width: 300px; font-size: var(--fs-16); line-height: 19px; color: var(--shop-text); }
+    .order__spec { margin-top: 5px; font-size: var(--fs-14); line-height: 20px; color: var(--shop-sub); }
+    .order__price { margin-top: 5px; font-size: var(--fs-16); line-height: 20px; color: var(--shop-text); }
+    .order__price b { font-weight: var(--font-weight-bold); }
+
+    .order__pay { display: flex; align-items: center; justify-content: space-between; margin-top: 7px; }
+    .order__pay span:first-child { font-size: var(--fs-16); color: var(--shop-text); }
+    .order__pay b { font-size: var(--fs-22); font-weight: var(--font-weight-bold); color: var(--shop-price-accent); }
+    .order__pay em { font-style: normal; font-size: var(--fs-22); color: var(--shop-text); }
+
+    .order__method { margin-top: 15px; font-size: var(--fs-16); line-height: 23px; font-weight: var(--font-weight-semibold); color: var(--shop-text); }
+    .order__row { display: flex; margin-top: 5px; font-size: var(--fs-14); line-height: 23px; }
+    .order__row span:first-child { width: 111px; color: var(--shop-text); }
+    .order__row span:last-child { color: var(--shop-sub); }
+
+    .order__banner { display: flex; justify-content: center; margin-top: 38px; }
+    .order__btns { display: flex; gap: 10px; margin-top: 15px; padding: 0 16px; }
+    .order__btn { flex: 1; height: 52px; display: flex; align-items: center; justify-content: center; border-radius: 5px; font-size: var(--fs-16); font-weight: var(--font-weight-bold); }
+    .order__btn--line { border: 1px solid var(--shop-green); color: var(--shop-green); background: var(--shop-surface); }
+    .order__btn--fill { background: var(--shop-green); color: var(--shop-surface); }
+
+    .shop-footer--plain { background: var(--shop-surface); padding-top: 51px; margin-top: 0; }
+  </style>
+</head>
+<body>
+  <main class="phone phone--scroll shop">
+    <header class="shop-header">
+      <img class="shop-header__logo" src="assets/shop-logo.png" alt="참참바이오" />
+      <div class="shop-header__icons">
+        <img src="assets/shop-bell.svg" width="22" height="24" alt="알림" />
+        <img src="assets/shop-menu.svg" width="24" height="23" alt="메뉴" />
+      </div>
+    </header>
+
+    <div class="order__head">
+      <h1>결제 완료</h1>
+      <p>2026.03.09 14:11:11</p>
+    </div>
+
+    <section class="order__sec" style="margin-top: 20px;">
+      <h2 class="order__h2">주문 상품</h2>
+      <p class="order__no">주문 번호 20260309123456</p>
+      <div class="order__item">
+        <div class="order__thumb"><img src="assets/product-ryegrass.png" alt="" /></div>
+        <div>
+          <p class="order__name">라이그라스 1등급(빅베일) - 사전예약  특가</p>
+          <p class="order__spec">13000(kg) / 5톤 카고</p>
+          <p class="order__price"><b>5,740,000</b>원</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="order__bar" style="margin-top: 20px;"></div>
+
+    <section class="order__sec" style="margin-top: 24px;">
+      <h2 class="order__h2">결제 정보</h2>
+      <div class="order__pay">
+        <span>최종 결제 금액</span>
+        <span><b>5,590,000</b><em>원</em></span>
+      </div>
+    </section>
+
+    <div class="order__bar" style="margin-top: 20px;"></div>
+
+    <section class="order__sec" style="margin-top: 20px;">
+      <h2 class="order__h2">결제 수단</h2>
+      <p class="order__method">무통장 입금</p>
+      <div class="order__row"><span>입금자</span><span>참참바이오</span></div>
+      <div class="order__row"><span>계좌번호</span><span>농협 301-0377-4231-81 (참참바이오 주식회사)</span></div>
+    </section>
+
+    <div class="order__banner">
+      <a class="cf-banner" data-href="farm-select.html" aria-label="CHAM-Fi 출시 배너">
+        <img class="cf-banner__glow" src="assets/banner-glow.svg" alt="" />
+        <div class="cf-banner__trail"><i></i></div>
+        <img class="cf-banner__bank" src="assets/banner-bank-clay.png" alt="" />
+        <img class="cf-banner__coin" src="assets/banner-coin.svg" alt="" />
+        <img class="cf-banner__sparkle" src="assets/banner-sparkle.svg" alt="" />
+        <div class="cf-banner__copy">
+          <span class="cf-banner__tag">CHAM-Fi 출시</span>
+          <p class="cf-banner__headline"><span>내 농장을 자산으로!</span><span>지금 얼마일까요?</span></p>
+        </div>
+        <p class="cf-banner__legal">준법감시인 심의필 제2026-000호 (2026.11.11~2027.11.10)</p>
+        <span class="cf-banner__ad">광고</span>
+      </a>
+    </div>
+
+    <div class="order__btns">
+      <a class="order__btn order__btn--line" data-href="shop-home.html">쇼핑 계속하기</a>
+      <a class="order__btn order__btn--fill" data-toast="프로토타입에 연결되지 않은 화면이에요">주문 내역 보기</a>
+    </div>
+
+    <footer class="shop-footer shop-footer--plain">
+      <img class="shop-footer__logo" src="assets/shop-logo-footer.png" alt="참참바이오" />
+      <p class="shop-footer__links"><b>회사소개</b>  <i>|</i>  <b>이용약관</b>  <i>|</i>  <b>개인정보처리방침</b>  <i>|</i>  <b>고객센터</b></p>
+      <div class="shop-footer__info">
+        <div><b>회사명</b> 참참바이오 주식회사 &nbsp; <b>대표</b> 김성오 &nbsp; <b>대표전화</b> 031-373-3288</div>
+        <div><b>FAX</b> 031-376-7728</div>
+        <div><b>주소</b> 경기도 화성시 동탄광역환승로 62, 동탄역 삼정그린코아 438호</div>
+        <div><b>사업자등록번호</b> 521-81-03288 [사업자정보확인]</div>
+        <div><b>통신판매업신고번호</b> 제2024-화성동탄-0861호</div>
+        <div><b>개인정보보호책임자</b> 김성오</div>
+        <div><b>마케팅 제휴 문의</b> sonny@goodfaith.co.kr</div>
+      </div>
+      <p class="shop-footer__copy">Copyright © Cham Charm Bio. All Rights Reserved.</p>
+    </footer>
+  </main>
+
+  <script src="js/chamfi.js"></script>
+</body>
+</html>

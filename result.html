@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[M-07] 조회 결과 · 상품 선택 · CHAM-Fi</title>
+  <link rel="stylesheet" href="css/chamfi.css" />
+  <style>
+    .hero { display: flex; flex-direction: column; gap: var(--extra-gap-6); }
+
+    .list-wrap { display: flex; flex-direction: column; gap: var(--space-6); padding-bottom: var(--extra-space-56); }
+    .controls { display: flex; flex-direction: column; gap: var(--space-4); }
+
+    .seg { position: relative; display: flex; height: 50px; padding: var(--space-1); border-radius: var(--radius-lg); background: var(--chamfi-bg); }
+    .seg__thumb {
+      position: absolute; left: 4px; top: 4px; width: calc(50% - 4px); height: 42px;
+      border-radius: var(--extra-radius-11); background: var(--chamfi-surface); filter: drop-shadow(var(--shadow-seg));
+      transition: transform 0.22s ease;
+    }
+    .seg[data-sort="limit"] .seg__thumb { transform: translateX(100%); }
+    .seg button { position: relative; z-index: 1; flex: 1; font: var(--type-title-md-weight) var(--type-title-md-size)/var(--type-title-md-line) var(--font-family); color: var(--chamfi-ink-subtle); }
+    .seg button.is-on { color: var(--chamfi-ink); }
+
+    .filters { display: flex; gap: var(--space-1); margin-right: -var(--space-5); overflow-x: auto; scrollbar-width: none; padding-right: var(--space-5); }
+    .filters::-webkit-scrollbar { display: none; }
+    .filter {
+      flex: none; padding: var(--extra-space-9) var(--space-4); border: 1px solid var(--extra-control-line-soft); border-radius: var(--radius-pill); background: var(--chamfi-surface);
+      font: var(--type-body-strong-weight) var(--type-body-strong-size)/var(--type-body-strong-line) var(--font-family); color: var(--chamfi-ink-muted); white-space: nowrap;
+    }
+    .filter.is-on { background: var(--chamfi-primary); border-color: var(--chamfi-primary); color: var(--chamfi-on-primary); font-weight: var(--font-weight-bold); line-height: 22px; padding: var(--extra-space-9) var(--space-4); }
+
+    .loans { display: flex; flex-direction: column; gap: var(--space-4); }
+
+    .loan {
+      display: flex; flex-direction: column; gap: var(--space-2);
+      width: 100%; padding: var(--space-4);
+      border: 1px solid var(--chamfi-line); border-radius: var(--radius-xl);
+      background: var(--chamfi-surface);
+      text-align: left;
+      cursor: pointer;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .loan.is-selected {
+      gap: var(--space-3);
+      border: 1.5px solid var(--extra-card-selected-border);
+      box-shadow: var(--shadow-card-selected);
+    }
+    .loan__body { display: flex; flex-direction: column; gap: var(--space-2); width: 100%; }
+    .loan__head { display: flex; align-items: center; gap: var(--space-3); }
+    .loan__name { flex: 1; min-width: 0; }
+    .loan__name .row { display: flex; align-items: center; gap: var(--space-2); }
+    .loan__chev { flex: none; width: 20px; height: 20px; }
+
+    .rate { display: flex; gap: var(--space-3); padding: var(--space-3) var(--space-4); border-radius: var(--radius-md); background: var(--chamfi-surface); }
+    .rate__col { flex: 1; min-width: 0; }
+    .rate__divider { align-self: stretch; width: 1px; background: var(--chamfi-surface-sunken); }
+
+    .chips { display: flex; gap: var(--extra-gap-6); }
+    .chip-ad { display: inline-flex; align-items: center; height: 24px; padding: var(--extra-space-3) var(--space-2); border-radius: var(--radius-xs); background: var(--extra-chip-ad-bg); color: var(--chamfi-on-primary); font: var(--type-caption-weight) var(--type-caption-size)/var(--type-caption-line) var(--font-family); }
+
+    .loan__cta { display: none; }
+    .loan.is-selected .loan__cta { display: flex; }
+
+    .empty { padding: var(--space-10) 0; text-align: center; }
+  </style>
+</head>
+<body>
+  <main class="phone">
+    <header class="cf-header">
+      <a class="cf-back" data-href="finance-loading.html" aria-label="뒤로"><img src="assets/icon-back-07.svg" alt="" /></a>
+    </header>
+
+    <div class="cf-scroll">
+      <div class="hero">
+        <p class="t-body-sm-strong primary">11.20 14:20 기준 · 금융사 심사 결과</p>
+        <h1 class="t-headline ink">부경축공 님이 신청할 수 있는<br />상품을 3개 찾았어요</h1>
+      </div>
+
+      <div class="list-wrap">
+        <div class="controls">
+          <div class="seg" id="seg" data-sort="rate">
+            <span class="seg__thumb"></span>
+            <button type="button" class="is-on" data-sort="rate">금리 낮은 순</button>
+            <button type="button" data-sort="limit">한도 높은 순</button>
+          </div>
+          <div class="filters" id="filters">
+            <button type="button" class="filter is-on" data-filter="all">전체</button>
+            <button type="button" class="filter" data-filter="축우담보">축우담보</button>
+            <button type="button" class="filter" data-filter="정책자금">정책자금</button>
+            <button type="button" class="filter" data-filter="운영자금">운영자금</button>
+            <button type="button" class="filter" data-filter="오늘 입금">오늘 입금</button>
+            <button type="button" class="filter" data-filter="중도상환 수수료 0원">중도상환 수수료 0원</button>
+          </div>
+        </div>
+
+        <div class="loans" id="loans"></div>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/chamfi.js"></script>
+  <script>
+    (function () {
+      var loans = [
+        { id: "chukhyup", badge: "축", color: "var(--extra-badge-chukhyup)", name: "참참축협",   product: "축우담보 운영자금", rateMin: 4.6, rate: "연 4.6~5.2%", limitVal: 10000, limit: "최대 1억 원",
+          tags: ["축우담보", "정책자금", "오늘 입금", "운영자금"], chips: ["축우담보", "정책자금", "오늘 입금"] },
+        { id: "bank",     badge: "은", color: "var(--extra-badge-bank)", name: "참참은행",   product: "축산 운영자금대출", rateMin: 5.1, rate: "연 5.1~5.9%", limitVal: 8000,  limit: "최대 8,000만 원",
+          tags: ["축우담보", "중도상환 수수료 0원", "운영자금"], chips: ["축우담보", "중도상환 수수료 0원"] },
+        { id: "capital",  badge: "캐", color: "var(--extra-badge-capital)", name: "참참캐피탈", product: "축우담보대출",     rateMin: 7.9, rate: "연 7.9~9.4%", limitVal: 9500,  limit: "최대 9,500만 원",
+          tags: ["축우담보"], chips: ["축우담보"], ad: true }
+      ];
+
+      var state = { sort: "rate", filter: "all", selected: "chukhyup" };
+      var listEl = document.getElementById("loans");
+
+      function card(l) {
+        var sel = state.selected === l.id;
+        return (
+          '<div class="loan' + (sel ? " is-selected" : "") + '" data-id="' + l.id + '" role="button" tabindex="0">' +
+            '<div class="loan__body">' +
+              '<div class="loan__head">' +
+                '<div class="cf-badge cf-badge--40" style="background:' + l.color + '">' + l.badge + "</div>" +
+                '<div class="loan__name"><div class="row"><span class="t-title-md ink">' + l.name + "</span>" + (l.ad ? '<span class="chip-ad">광고</span>' : "") + "</div>" +
+                  '<p class="t-body-sm ink-muted">' + l.product + "</p></div>" +
+                '<img class="loan__chev" src="assets/icon-chevron-right-sm.svg" alt="" />' +
+              "</div>" +
+              '<div class="rate">' +
+                '<div class="rate__col"><p class="t-caption ink-subtle">금리</p><p class="t-price-lg primary">' + l.rate + "</p></div>" +
+                '<div class="rate__divider"></div>' +
+                '<div class="rate__col"><p class="t-caption ink-subtle">한도</p><p class="t-price-lg ink">' + l.limit + "</p></div>" +
+              "</div>" +
+              '<div class="chips">' + l.chips.map(function (c) { return '<span class="cf-chip">' + c + "</span>"; }).join("") + "</div>" +
+            "</div>" +
+            '<a class="cf-btn cf-btn--tonal loan__cta" data-href="apply-complete.html">이 상품으로 신청하기</a>' +
+          "</div>"
+        );
+      }
+
+      function render() {
+        var items = loans.filter(function (l) { return state.filter === "all" || l.tags.indexOf(state.filter) > -1; });
+        items.sort(function (a, b) { return state.sort === "rate" ? a.rateMin - b.rateMin : b.limitVal - a.limitVal; });
+        if (!items.some(function (l) { return l.id === state.selected; }) && items.length) state.selected = items[0].id;
+        listEl.innerHTML = items.length
+          ? items.map(card).join("")
+          : '<p class="empty t-body-sm ink-muted">조건에 맞는 상품이 없어요</p>';
+      }
+
+      listEl.addEventListener("click", function (e) {
+        if (e.target.closest(".loan__cta")) return;
+        var el = e.target.closest(".loan");
+        if (!el) return;
+        state.selected = el.getAttribute("data-id");
+        render();
+      });
+
+      document.getElementById("seg").addEventListener("click", function (e) {
+        var btn = e.target.closest("button");
+        if (!btn) return;
+        state.sort = btn.getAttribute("data-sort");
+        this.setAttribute("data-sort", state.sort);
+        this.querySelectorAll("button").forEach(function (b) { b.classList.toggle("is-on", b === btn); });
+        render();
+      });
+
+      document.getElementById("filters").addEventListener("click", function (e) {
+        var btn = e.target.closest(".filter");
+        if (!btn) return;
+        state.filter = btn.getAttribute("data-filter");
+        this.querySelectorAll(".filter").forEach(function (b) { b.classList.toggle("is-on", b === btn); });
+        render();
+      });
+
+      render();
+    })();
+  </script>
+</body>
+</html>

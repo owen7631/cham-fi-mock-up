@@ -1,0 +1,825 @@
+/* ==========================================================================
+   CHAM-Fi · Hi-Fi mockup (Phase1-IR)
+   Figma: CCBIO_V1.0.0 / CHAM-FI (Hi-Fi · Phase1-IR)
+   ========================================================================== */
+
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css");
+
+/* -------------------------------------------------------------------------
+   Design tokens  →  css/tokens.css  (색 39 · 글자 17 · 간격/모서리/크기)
+   이 파일에는 hex / px 상수를 직접 쓰지 않고 토큰만 참조한다.
+   ------------------------------------------------------------------------- */
+@import url("tokens.css");
+
+/* -------------------------------------------------------------------------
+   Base
+   ------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--extra-stage);
+  font-family: var(--font-family);
+  color: var(--chamfi-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+p,
+h1,
+h2,
+h3 {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+img {
+  display: block;
+  max-width: none;
+}
+
+/* -------------------------------------------------------------------------
+   Phone frame (430 x 932)
+   ------------------------------------------------------------------------- */
+.phone {
+  position: relative;
+  width: 430px;
+  height: 932px;
+  background: var(--chamfi-surface);
+  border-radius: var(--extra-radius-28);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-phone);
+}
+
+.phone--sunken {
+  background: var(--chamfi-surface-sunken);
+}
+
+.phone--scroll {
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: block;
+}
+
+@media (max-width: 460px) {
+  body {
+    background: var(--chamfi-surface);
+    align-items: stretch;
+  }
+  .phone {
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    border-radius: 0;
+    box-shadow: none;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   Text styles (CHAM-Fi/*)
+   ------------------------------------------------------------------------- */
+.t-display { font: var(--type-display-weight) var(--type-display-size)/var(--type-display-line) var(--font-family); letter-spacing: var(--type-display-tracking); }
+.t-number-lg { font: var(--type-number-lg-weight) var(--type-number-lg-size)/var(--type-number-lg-line) var(--font-family); letter-spacing: var(--type-number-lg-tracking); }
+.t-headline { font: var(--type-headline-weight) var(--type-headline-size)/var(--type-headline-line) var(--font-family); letter-spacing: var(--type-headline-tracking); }
+.t-title-xl { font: var(--type-title-xl-weight) var(--type-title-xl-size)/var(--type-title-xl-line) var(--font-family); letter-spacing: var(--type-title-xl-tracking); }
+.t-title-lg { font: var(--type-title-lg-weight) var(--type-title-lg-size)/var(--type-title-lg-line) var(--font-family); letter-spacing: var(--type-title-lg-tracking); }
+.t-title-md { font: var(--type-title-md-weight) var(--type-title-md-size)/var(--type-title-md-line) var(--font-family); letter-spacing: var(--type-title-md-tracking); }
+.t-title-sm { font: var(--type-title-sm-weight) var(--type-title-sm-size)/var(--type-title-sm-line) var(--font-family); letter-spacing: var(--type-title-sm-tracking); }
+.t-price-lg { font: var(--type-price-lg-weight) var(--type-price-lg-size)/var(--type-price-lg-line) var(--font-family); letter-spacing: var(--type-price-lg-tracking); }
+.t-price { font: var(--type-price-weight) var(--type-price-size)/var(--type-price-line) var(--font-family); letter-spacing: var(--type-price-tracking); }
+.t-button { font: var(--type-button-weight) var(--type-button-size)/var(--type-button-line) var(--font-family); letter-spacing: var(--type-button-tracking); }
+.t-body-lg { font: var(--type-body-lg-weight) var(--type-body-lg-size)/var(--type-body-lg-line) var(--font-family); letter-spacing: var(--type-body-lg-tracking); }
+.t-body { font: var(--type-body-weight) var(--type-body-size)/var(--type-body-line) var(--font-family); letter-spacing: var(--type-body-tracking); }
+.t-body-strong { font: var(--type-body-strong-weight) var(--type-body-strong-size)/var(--type-body-strong-line) var(--font-family); letter-spacing: var(--type-body-strong-tracking); }
+.t-body-sm { font: var(--type-body-sm-weight) var(--type-body-sm-size)/var(--type-body-sm-line) var(--font-family); letter-spacing: var(--type-body-sm-tracking); }
+.t-body-sm-strong { font: var(--type-body-sm-strong-weight) var(--type-body-sm-strong-size)/var(--type-body-sm-strong-line) var(--font-family); letter-spacing: var(--type-body-sm-strong-tracking); }
+.t-caption { font: var(--type-caption-weight) var(--type-caption-size)/var(--type-caption-line) var(--font-family); letter-spacing: var(--type-caption-tracking); }
+.t-micro { font: var(--type-micro-weight) var(--type-micro-size)/var(--type-micro-line) var(--font-family); letter-spacing: var(--type-micro-tracking); }
+
+.ink { color: var(--chamfi-ink); }
+.ink-muted { color: var(--chamfi-ink-muted); }
+.ink-subtle { color: var(--chamfi-ink-subtle); }
+.primary { color: var(--chamfi-primary); }
+
+/* -------------------------------------------------------------------------
+   Header (상단 바 · 높이 57)
+   ------------------------------------------------------------------------- */
+.cf-header {
+  flex: none;
+  height: var(--size-header-h);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-5) 0 var(--space-3);
+  background: var(--chamfi-surface);
+}
+
+.cf-header--exit {
+  justify-content: flex-end;
+  padding: 0 var(--space-5);
+}
+
+.cf-header--home {
+  justify-content: space-between;
+  padding: 0 var(--space-5);
+  background: var(--chamfi-surface-sunken);
+}
+
+.cf-back {
+  display: block;
+  width: 24px;
+  height: 24px;
+  position: relative;
+}
+
+.cf-back img {
+  width: 24px;
+  height: 24px;
+}
+
+.cf-exit {
+  display: flex;
+  align-items: center;
+  padding: var(--extra-gap-10) var(--space-1);
+  font: var(--type-body-weight) var(--type-body-size)/var(--type-body-line) var(--font-family);
+  color: var(--chamfi-ink-muted);
+  white-space: nowrap;
+}
+
+.cf-wordmark {
+  width: 132px;
+  height: 22px;
+}
+
+/* NotificationBell */
+.cf-bell {
+  position: relative;
+  width: 32px;
+  height: 32px;
+}
+
+.cf-bell__icon {
+  position: absolute;
+  left: 4px;
+  top: 6px;
+  width: 24px;
+  height: 24px;
+}
+
+.cf-bell__badge {
+  position: absolute;
+  left: 16px;
+  top: 0;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 var(--extra-space-5);
+  border-radius: var(--radius-pill);
+  border: 2px solid var(--chamfi-bg);
+  background: var(--chamfi-danger);
+  color: var(--chamfi-on-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: var(--type-caption-weight) var(--type-caption-size)/var(--type-caption-line) var(--font-family);
+  white-space: nowrap;
+}
+
+/* -------------------------------------------------------------------------
+   Body / CTA bar
+   ------------------------------------------------------------------------- */
+.cf-body {
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-2) var(--space-5) var(--space-4);
+  gap: var(--space-4);
+  overflow: hidden;
+}
+
+.cf-scroll {
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-10);
+  padding: var(--space-5) var(--space-5) var(--space-6);
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.cf-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.cf-spacer {
+  flex: 1 1 0;
+  min-height: 8px;
+}
+
+.cf-title {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.cf-title--center {
+  align-items: center;
+  text-align: center;
+}
+
+.cf-cta {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-5) var(--space-6);
+  background: var(--chamfi-surface);
+}
+
+.cf-cta--sheet {
+  border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
+  box-shadow: var(--shadow-sheet);
+  position: relative;
+  z-index: 1;
+}
+
+/* -------------------------------------------------------------------------
+   Buttons
+   ------------------------------------------------------------------------- */
+.cf-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: var(--size-cta-h);
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-md);
+  font: var(--type-button-weight) var(--type-button-size)/var(--type-button-line) var(--font-family);
+  white-space: nowrap;
+  text-align: center;
+  transition: background-color 0.15s, filter 0.15s, transform 0.1s;
+}
+
+.cf-btn:active:not(.is-disabled) {
+  transform: scale(0.99);
+}
+
+.cf-btn--primary {
+  background: var(--chamfi-primary);
+  color: var(--chamfi-on-primary);
+  filter: drop-shadow(var(--shadow-cta));
+}
+
+.cf-btn--secondary {
+  background: var(--chamfi-surface-sunken);
+  color: var(--chamfi-ink-muted);
+}
+
+.cf-btn.is-disabled {
+  background: var(--chamfi-disabled-bg);
+  color: var(--chamfi-on-primary);
+  filter: none;
+  cursor: default;
+  pointer-events: none;
+}
+
+.cf-btn--tonal {
+  height: 48px;
+  gap: var(--extra-gap-6);
+  background: var(--chamfi-button-tonal-bg);
+  color: var(--chamfi-button-tonal-text);
+  font: var(--type-title-sm-weight) var(--type-title-sm-size)/var(--type-title-sm-line) var(--font-family);
+}
+
+.cf-btn--tonal img {
+  width: 16px;
+  height: 16px;
+}
+
+/* -------------------------------------------------------------------------
+   Cards / chips / notices
+   ------------------------------------------------------------------------- */
+.cf-infocard {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  padding: var(--space-5);
+  background: var(--chamfi-bg);
+  border-radius: var(--radius-xl);
+}
+
+.cf-infocard__item {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  white-space: nowrap;
+}
+
+.cf-infocard__divider {
+  flex: none;
+  width: 1px;
+  height: 40px;
+  background: var(--chamfi-line);
+}
+
+.cf-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--extra-space-3) var(--space-2);
+  border-radius: var(--radius-xs);
+  background: var(--chamfi-surface-sunken);
+  color: var(--chamfi-ink-muted);
+  font: var(--type-caption-weight) var(--type-caption-size)/var(--type-caption-line) var(--font-family);
+  white-space: nowrap;
+}
+
+.cf-notice {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  background: var(--chamfi-notice-bg);
+  color: var(--chamfi-on-notice);
+  font: var(--type-body-sm-weight) var(--type-body-sm-size)/var(--type-body-sm-line) var(--font-family);
+  text-align: center;
+}
+
+.cf-notice--strong {
+  font-weight: var(--font-weight-semibold);
+}
+
+/* Checkbox */
+.cf-check {
+  flex: none;
+  position: relative;
+  width: 22px;
+  height: 22px;
+}
+
+.cf-check img {
+  position: absolute;
+  inset: 0;
+  width: 22px;
+  height: 22px;
+}
+
+.cf-check .on {
+  display: none;
+}
+
+.cf-check.is-on .on {
+  display: block;
+}
+
+.cf-check.is-on .off {
+  display: none;
+}
+
+/* Dialog */
+.cf-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: var(--chamfi-overlay);
+}
+
+.cf-overlay.is-open {
+  display: flex;
+}
+
+.cf-dialog {
+  width: 330px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-5);
+  padding: var(--extra-space-28) var(--space-5) var(--space-5);
+  border-radius: var(--radius-2xl);
+  background: var(--chamfi-surface);
+  filter: drop-shadow(var(--shadow-dialog));
+}
+
+.cf-dialog__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+  text-align: center;
+}
+
+.cf-dialog__actions {
+  display: flex;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.cf-dialog__btn {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  font: var(--type-title-sm-weight) var(--type-title-sm-size)/var(--type-title-sm-line) var(--font-family);
+  white-space: nowrap;
+}
+
+.cf-dialog__btn--secondary {
+  background: var(--chamfi-button-tonal-bg);
+  color: var(--chamfi-button-tonal-text);
+}
+
+.cf-dialog__btn--primary {
+  background: var(--chamfi-primary);
+  color: var(--chamfi-on-primary);
+}
+
+/* Toast (프로토타입 안내용) */
+.cf-toast {
+  position: absolute;
+  left: 50%;
+  bottom: 110px;
+  z-index: 80;
+  transform: translate(-50%, 12px);
+  max-width: 360px;
+  padding: var(--extra-gap-10) var(--space-4);
+  border-radius: var(--radius-pill);
+  background: var(--extra-ink-toast);
+  color: var(--extra-on-toast);
+  font: var(--type-body-sm-strong-weight) var(--type-body-sm-strong-size)/var(--type-body-sm-strong-line) var(--font-family);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s, transform 0.2s;
+  white-space: nowrap;
+}
+
+.cf-toast.is-show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* -------------------------------------------------------------------------
+   Bank badge / loan card / result row
+   ------------------------------------------------------------------------- */
+.cf-badge {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--chamfi-on-primary);
+  font: var(--type-title-sm-weight) var(--type-title-sm-size)/var(--type-title-sm-line) var(--font-family);
+}
+
+.cf-badge--36 { width: 36px; height: 36px; border-radius: var(--radius-sm); }
+.cf-badge--40 { width: 40px; height: 40px; border-radius: var(--radius-md); }
+
+.cf-resultrow {
+  display: flex;
+  gap: var(--space-2);
+  height: 74px;
+  padding: var(--space-4);
+  background: var(--chamfi-surface);
+  border: 1px solid var(--chamfi-line);
+  border-radius: var(--radius-xl);
+  animation: cf-rise 0.35s ease both;
+}
+
+.cf-resultrow__text {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--extra-gap-2);
+}
+
+.cf-resultrow__rate {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--extra-gap-2);
+  white-space: nowrap;
+}
+
+@keyframes cf-rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* -------------------------------------------------------------------------
+   ApplyProgress (신청 진행 현황)
+   ------------------------------------------------------------------------- */
+.cf-progress {
+  display: flex;
+  width: 100%;
+}
+
+.cf-step {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.cf-step__track {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 34px;
+}
+
+.cf-step__track--current {
+  display: block;
+  position: relative;
+}
+
+.cf-step__track--current img {
+  width: 87px;
+  height: 34px;
+}
+
+.cf-step__line {
+  flex: 1 1 0;
+  min-width: 1px;
+  height: 2px;
+  background: var(--chamfi-line);
+}
+
+.cf-step__line--on { background: var(--chamfi-primary); }
+.cf-step__line--hidden { opacity: 0; }
+
+.cf-step__dot {
+  flex: none;
+  width: 12px;
+  height: 12px;
+}
+
+.cf-step__label {
+  font: var(--type-caption-weight) var(--type-caption-size)/var(--type-caption-line) var(--font-family);
+  white-space: nowrap;
+  color: var(--chamfi-ink);
+}
+
+.cf-step--todo .cf-step__label { color: var(--chamfi-ink-subtle); }
+
+/* -------------------------------------------------------------------------
+   Banner / CHAM-Fi 출시 (navy · 398x140)
+   ------------------------------------------------------------------------- */
+.cf-banner {
+  position: relative;
+  display: block;
+  width: 398px;
+  height: 140px;
+  border-radius: var(--extra-radius-20);
+  border: 1.117px solid var(--banner-border);
+  overflow: hidden;
+  background-image: linear-gradient(141.64deg, var(--banner-from) 0%, var(--banner-to) 76.923%);
+  flex: none;
+}
+
+.cf-banner > * {
+  position: absolute;
+}
+
+.cf-banner__glow { left: 195px; top: -37px; width: 220px; height: 220px; }
+.cf-banner__trail {
+  left: 284px; top: 2px; width: 74px; height: 47px;
+  display: flex; align-items: center; justify-content: center;
+}
+.cf-banner__trail i {
+  display: block; width: 86px; height: 2px; border-radius: var(--extra-radius-1);
+  background: linear-gradient(90deg, var(--banner-trail-from), var(--banner-trail-to));
+  transform: rotate(-32deg);
+}
+.cf-banner__bank { left: 270px; top: 20px; width: 105px; height: 105px; object-fit: contain; }
+.cf-banner__coin { left: 247px; top: 72px; width: 49px; height: 49px; }
+.cf-banner__sparkle { left: 250px; top: 29px; width: 128.744px; height: 45.953px; }
+
+.cf-banner__copy {
+  left: 19px; top: 19px; width: 212px;
+  display: flex; flex-direction: column; gap: var(--extra-gap-10);
+}
+
+.cf-banner__tag {
+  align-self: flex-start;
+  padding: var(--extra-space-3) var(--extra-gap-10);
+  border-radius: var(--radius-pill);
+  background: var(--banner-tag-bg);
+  color: var(--chamfi-on-hero);
+  font-size: 12px;
+  font-weight: var(--font-weight-bold);
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.cf-banner__headline {
+  color: var(--chamfi-on-hero);
+  font-size: 22px;
+  line-height: 27px;
+  font-weight: var(--font-weight-bold);
+}
+
+.cf-banner__headline span { display: block; }
+.cf-banner__headline span + span { font-weight: var(--font-weight-regular); }
+
+.cf-banner__legal {
+  left: 21px; top: 117px; width: 260px;
+  color: var(--banner-legal);
+  font-size: 8px;
+  font-weight: var(--font-weight-medium);
+  line-height: normal;
+}
+
+.cf-banner__ad {
+  right: 11px; top: 11px;
+  padding: var(--extra-gap-2) var(--extra-gap-6);
+  border-radius: var(--extra-radius-4);
+  background: var(--banner-ad-bg);
+  color: var(--banner-ad-text);
+  font-size: 9px;
+  font-weight: var(--font-weight-bold);
+  line-height: normal;
+}
+
+/* -------------------------------------------------------------------------
+   Character stage (참참이 3D)
+   ------------------------------------------------------------------------- */
+.cf-face {
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+  flex: none;
+}
+
+.cf-face img {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+}
+
+.cf-face img.is-on { opacity: 1; }
+
+/* -------------------------------------------------------------------------
+   Shop (쇼핑몰 기존 화면) common
+   ------------------------------------------------------------------------- */
+.shop {
+  background: var(--shop-surface);
+  color: var(--shop-text);
+}
+
+.shop-header {
+  position: relative;
+  height: 67px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-4);
+  background: var(--shop-surface);
+}
+
+.shop-header__logo { width: 170px; height: 26px; object-fit: contain; object-position: left center; margin-top: -var(--extra-gap-2); }
+.shop-header__icons { margin-left: auto; display: flex; align-items: center; gap: var(--extra-space-22); margin-right: var(--extra-space-3); }
+.shop-header__icons img { display: block; }
+
+.shop-footer {
+  background: var(--shop-bg);
+  padding: var(--extra-space-86) var(--extra-space-15) var(--space-10);
+  font-size: var(--type-body-sm-size);
+  color: var(--shop-sub);
+}
+
+.shop-footer__logo { width: 116px; height: 18px; opacity: 0.6; object-fit: contain; object-position: bottom; }
+.shop-footer__links { margin-top: var(--extra-space-30); font-size: 16px; color: var(--shop-text); white-space: pre; }
+.shop-footer__links b { font-weight: var(--font-weight-semibold); }
+.shop-footer__links i { font-style: normal; color: var(--shop-mute); }
+.shop-footer__info { margin-top: var(--extra-space-28); line-height: 23px; }
+.shop-footer__info b { font-weight: var(--font-weight-semibold); color: var(--shop-sub); }
+.shop-footer__info span { margin-right: var(--space-2); }
+.shop-footer__copy { margin-top: var(--space-6); color: var(--shop-mute); }
+
+/* Shop tab bar (하단 탭바) */
+.cf-tabbar {
+  flex: none;
+  display: flex;
+  padding: var(--space-3) var(--space-2) var(--space-6);
+  background: var(--chamfi-surface);
+  border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
+  filter: drop-shadow(var(--shadow-tabbar));
+  position: relative;
+  z-index: 5;
+}
+
+.cf-tab {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  height: 54px;
+  font: var(--type-micro-weight) var(--type-micro-size)/var(--type-micro-line) var(--font-family);
+  color: var(--chamfi-tab-inactive-text);
+  white-space: nowrap;
+}
+
+.cf-tab__icon {
+  position: relative;
+  width: 32px;
+  height: 28px;
+  transition: transform 0.18s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+
+.cf-tab:active .cf-tab__icon { transform: scale(0.86); }
+
+.cf-tab__icon img {
+  position: absolute;
+  left: 2px;
+  top: 0;
+  width: 28px;
+  height: 28px;
+}
+
+/* 선택된 탭은 아이콘 색을 primary 로 칠한다 (mask) */
+.cf-tab.is-active { color: var(--chamfi-primary); font: var(--type-caption-weight) var(--type-caption-size)/var(--type-caption-line) var(--font-family); }
+
+.cf-tab__mask {
+  position: absolute;
+  left: 2px;
+  top: 0;
+  width: 28px;
+  height: 28px;
+  background: var(--chamfi-primary);
+  -webkit-mask-size: 28px 28px;
+  mask-size: 28px 28px;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+/* CHAM-Fi 탭 아이콘 (막대 3개) */
+.cf-bars {
+  position: absolute;
+  left: 2px;
+  top: 0;
+  width: 28px;
+  height: 28px;
+}
+
+.cf-bars i {
+  position: absolute;
+  width: 5.367px;
+  border-radius: var(--extra-radius-hairline);
+  background: var(--chamfi-tab-inactive);
+}
+
+.cf-bars i:nth-child(1) { left: 4.08px; top: 15.75px; height: 9.333px; }
+.cf-bars i:nth-child(2) { left: 11.32px; top: 10.5px; height: 14.583px; }
+.cf-bars i:nth-child(3) { left: 18.55px; top: 4.08px; height: 21px; }
+
+.cf-tab.is-active .cf-bars i { background: var(--chamfi-primary); }
+
+.cf-tab__new {
+  position: absolute;
+  left: 25px;
+  top: -2px;
+  width: 7px;
+  height: 7px;
+}

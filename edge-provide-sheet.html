@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[M-10-03-07 · M-04-S3] 제공 내용 보기 · CHAM-Fi</title>
+  <link rel="stylesheet" href="css/chamfi.css" />
+  <style>
+    .edge-body { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; align-items: center; padding: 64px var(--space-5) var(--space-4); overflow: hidden; }
+    .edge-face { flex: none; width: 120px; height: 120px; position: relative; }
+    .edge-face .cf-face { width: 120px; height: 120px; background: var(--chamfi-notice-bg); }
+    .edge-face .cf-face img { top: 0; }
+    .edge-title { margin-top: var(--space-10); display: flex; flex-direction: column; align-items: center; gap: var(--space-2); text-align: center; width: 100%; }
+    .edge-notice { margin-top: var(--space-6); width: 100%; }
+    .edge-cta-2 { display: flex; flex-direction: column; gap: var(--space-3); }
+    .cf-btn img { width: 16px; height: 16px; }
+
+    .hero { display: flex; flex-direction: column; gap: var(--extra-gap-6); }
+    .stack { display: flex; flex-direction: column; gap: var(--space-3); }
+    .value { display: flex; flex-direction: column; gap: var(--space-4); padding: var(--space-5) var(--space-4); border: 1.5px solid var(--extra-card-selected-border); border-radius: var(--radius-xl); background: var(--chamfi-surface); box-shadow: var(--shadow-card-selected); }
+    .value__main { display: flex; flex-direction: column; gap: var(--space-1); }
+    .value__divider { height: 1px; background: var(--chamfi-line); }
+    .summary { display: flex; align-items: center; gap: var(--space-3); }
+    .summary img { flex: none; width: 44px; height: 44px; }
+    .summary__text { flex: 1; min-width: 0; }
+    .opt { display: flex; align-items: center; gap: var(--space-3); width: 100%; padding: var(--space-4); border: 1px solid var(--chamfi-line); border-radius: var(--radius-md); background: var(--chamfi-surface); text-align: left; color: var(--chamfi-ink); transition: background-color 0.15s, border-color 0.15s; }
+    .opt__text { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; }
+    .opt__text > span { display: block; }
+    .opt__title { margin-bottom: calc(var(--extra-radius-1) * -1); }
+    .opt__icon { flex: none; width: 32px; height: 32px; position: relative; }
+    .opt__icon img { position: absolute; inset: 0; width: 32px; height: 32px; }
+    .opt__icon .sel { display: none; }
+    .opt.is-on { background: var(--chamfi-surface-sunken); border-color: var(--chamfi-selected-line); }
+    .opt.is-on .opt__title { color: var(--chamfi-on-selected); }
+    .opt.is-on .opt__icon .sel { display: block; }
+    .opt.is-on .opt__icon .def { display: none; }
+    .notes { display: flex; flex-direction: column; gap: var(--space-4); padding: var(--space-4); border-radius: var(--radius-md); background: var(--chamfi-bg); }
+    .notegroup { display: flex; flex-direction: column; gap: var(--space-1); }
+    .bullet { display: flex; gap: var(--extra-gap-6); }
+    .agree { display: flex; align-items: center; gap: var(--extra-gap-10); padding: var(--space-1); width: 100%; text-align: left; }
+    .agree__label { flex: 1; min-width: 0; display: flex; gap: var(--extra-gap-6); font: var(--type-body-sm-strong-weight) var(--type-body-sm-strong-size)/var(--type-body-sm-strong-line) var(--font-family); }
+    .agree__label .tag { color: var(--chamfi-primary); white-space: nowrap; }
+    .agree__more { flex: none; font: var(--type-body-sm-weight) var(--type-body-sm-size)/var(--type-body-sm-line) var(--font-family); color: var(--chamfi-ink-subtle); white-space: nowrap; }
+    .sheet-overlay { position: absolute; inset: 0; z-index: 60; display: flex; align-items: flex-end; background: var(--chamfi-overlay); opacity: 1; visibility: visible; transition: opacity 0.28s ease, visibility 0s linear 0s; }
+    .sheet-overlay.is-closed { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.28s ease, visibility 0s linear 0.3s; }
+    .sheet { width: 100%; height: 436px; display: flex; flex-direction: column; gap: var(--space-4); padding: var(--space-3) var(--space-5) var(--space-6); background: var(--chamfi-surface); border-radius: var(--radius-2xl) var(--radius-2xl) 0 0; transform: translateY(0); transition: transform 0.34s cubic-bezier(0.22, 0.9, 0.3, 1); }
+    .sheet-overlay.is-closed .sheet { transform: translateY(100%); transition: transform 0.28s cubic-bezier(0.4, 0, 0.8, 0.3); }
+    .sheet__grab { align-self: center; width: 36px; height: 4px; border-radius: var(--radius-pill); background: var(--chamfi-line); }
+    .sheet__rows { display: flex; flex-direction: column; gap: var(--space-3); }
+    .sheet__row { display: flex; flex-direction: column; gap: var(--extra-gap-2); }
+    .sheet__row b { font: var(--type-body-sm-strong-weight) var(--type-body-sm-strong-size)/var(--type-body-sm-strong-line) var(--font-family); }
+    .sheet__foot { margin-top: auto; display: flex; flex-direction: column; gap: var(--space-3); }
+</style>
+</head>
+<body>
+  <main class="phone">
+    <header class="cf-header">
+      <a class="cf-back" data-href="consent.html" aria-label="뒤로"><img src="assets/icon-back-04.svg" alt="" /></a>
+    </header>
+
+    <div class="cf-scroll" style="padding-bottom: var(--space-8);">
+      <div class="hero">
+        <p class="t-body-sm-strong primary">축산물이력제 11.20 기준</p>
+        <h1 class="t-headline ink">부경축공 님 농장에서<br />거세우 8두를 확인했어요</h1>
+      </div>
+
+      <div class="stack">
+        <div class="value">
+          <div class="value__main">
+            <p class="t-body-sm-strong ink-muted">내 소 자산 (현재 추정 시세)</p>
+            <p class="t-display ink">약 7,190만 원</p>
+          </div>
+          <div class="value__divider"></div>
+          <div class="summary">
+            <img src="assets/icon-bank.svg" alt="" />
+            <div class="summary__text">
+              <p class="t-caption ink-subtle">담보가치인정액 (추정)</p>
+              <p class="t-title-md ink" id="amount">약 4,110만 원</p>
+            </div>
+          </div>
+        </div>
+
+        <button class="opt is-on" id="ins" type="button" aria-pressed="true">
+          <span class="opt__text">
+            <span class="t-title-md opt__title">가축재해보험에 가입했어요</span>
+            <span class="t-body-sm ink-muted" id="insSub">보험 가입 정보는 담보가치 산출에 반영돼요</span>
+          </span>
+          <span class="opt__icon"><img class="sel" src="assets/check-selected.svg" alt="" /><img class="def" src="assets/check-default.svg" alt="" /></span>
+        </button>
+      </div>
+
+      <div class="notes">
+        <p class="t-title-sm ink">확인해 주세요</p>
+        <div class="notegroup">
+          <p class="t-caption ink-muted">산정 기준</p>
+          <div class="bullet t-micro ink-subtle"><span>·</span><span>한우 비육우, 송아지 생산비·사육비</span></div>
+          <div class="bullet t-micro ink-subtle"><span>·</span><span>한우 비육 거세 표준체중 및 평균 도체중</span></div>
+          <div class="bullet t-micro ink-subtle"><span>·</span><span>한우 비육, 송아지 월별 평균 경락단가, 시세</span></div>
+          <div class="bullet t-micro ink-subtle"><span>·</span><span>한우 산지가격 및 경락단가 지표 등</span></div>
+          <p class="t-micro ink-subtle">위와 같이 다양한 시장 평균값, 지표를 종합적으로 반영하여 당사 자체 기준에 따라 산정</p>
+        </div>
+        <div class="notegroup">
+          <p class="t-caption ink-muted">유의 사항</p>
+          <div class="bullet t-micro ink-subtle"><span>·</span><span>평균 시세 및 시장 지표를 기준으로 산정함에 따라 실제 거래가격과 일부 오차가 발생할 수 있습니다.</span></div>
+          <div class="bullet t-micro ink-subtle"><span>·</span><span>농장의 축사환경, 개체의 유전능력, 사양 · 질병 · 영양관리 조건 등에 따라 실제 평가액과 차이가 있을 수 있습니다.</span></div>
+          <div class="bullet t-micro ink-subtle"><span>·</span><span>표시된 담보가치인정액은 경매 낙찰가 등을 바탕으로 산출한 참고용 금액이에요. 실제 대출 가능액은 개체 상태, 신청인의 신용도, 금융기관의 심사 기준에 따라 달라질 수 있으며 대출을 보장하지 않아요.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cf-cta cf-cta--sheet">
+      <button class="agree" id="agree" type="button">
+        <span class="cf-check" id="agreeBox" data-check><img class="off" src="assets/checkbox-off.svg" alt="" /><img class="on" src="assets/checkbox-on.svg" alt="" /></span>
+        <span class="agree__label"><span class="tag">필수</span><span class="ink">농장·개체 정보 금융사 제공 동의</span></span>
+        <span class="agree__more" data-toast="제공 내용 보기는 프로토타입에 연결되지 않았어요">내용 보기</span>
+      </button>
+      <a class="cf-btn cf-btn--primary is-disabled" id="submit">동의하고 금융사 조회하기</a>
+    </div>
+
+    <div class="sheet-overlay is-closed" id="sheet">
+      <div class="sheet" role="dialog" aria-modal="true">
+        <div class="sheet__grab"></div>
+        <p class="t-title-md ink">농장·개체 정보 금융사 제공 동의</p>
+        <div class="sheet__rows">
+          <div class="sheet__row"><span class="t-caption ink-subtle">제공받는 자</span><b class="ink">참참축협, 참참은행, 참참캐피탈 외 3곳</b></div>
+          <div class="sheet__row"><span class="t-caption ink-subtle">제공 항목</span><b class="ink">농장 정보, 개체이력번호, 성별·월령, 담보가치 산출값</b></div>
+          <div class="sheet__row"><span class="t-caption ink-subtle">제공 목적</span><b class="ink">대출 상품 조회와 심사</b></div>
+          <div class="sheet__row"><span class="t-caption ink-subtle">보유 기간</span><b class="ink">제공일부터 1년</b></div>
+        </div>
+        <div class="sheet__foot">
+          <p class="t-micro ink-subtle">동의하지 않으면 금융사 조회를 이용할 수 없어요</p>
+          <button class="cf-btn cf-btn--primary" id="sheetOk" type="button">확인</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="js/chamfi.js"></script>
+  <script>
+    (function () {
+      var ins = document.getElementById("ins");
+      var amount = document.getElementById("amount");
+      var insSub = document.getElementById("insSub");
+      var agree = document.getElementById("agree");
+      var box = document.getElementById("agreeBox");
+      var submit = document.getElementById("submit");
+
+      function syncSubmit() {
+        var on = box.classList.contains("is-on");
+        submit.classList.toggle("is-disabled", !on);
+        if (on) submit.setAttribute("data-href", "finance-loading.html");
+        else submit.removeAttribute("data-href");
+      }
+
+      ins.addEventListener("click", function () {
+        var on = ins.classList.toggle("is-on");
+        ins.setAttribute("aria-pressed", on);
+        amount.textContent = on ? "약 4,110만 원" : "약 2,880만 원";
+        insSub.textContent = on ? "보험 가입 정보는 담보가치 산출에 반영돼요" : "가입하지 않으면 담보가치인정액이 낮게 산출돼요";
+      });
+
+      agree.addEventListener("click", function (e) {
+        if (e.target.closest(".agree__more")) return;
+        box.classList.toggle("is-on");
+        syncSubmit();
+      });
+
+      var sheet = document.getElementById("sheet");
+      requestAnimationFrame(function () { requestAnimationFrame(function () { sheet.classList.remove("is-closed"); }); });
+      var sheetOk = document.getElementById("sheetOk");
+      if (sheet && sheetOk) {
+        sheetOk.addEventListener("click", function () { sheet.classList.add("is-closed"); });
+      }
+      syncSubmit();
+    })();
+  </script>
+</body>
+</html>

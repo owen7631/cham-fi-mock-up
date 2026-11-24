@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[M-10-04-06 · M-07-E1] 조회 결과 없음 · CHAM-Fi</title>
+  <link rel="stylesheet" href="css/chamfi.css" />
+  <style>
+    .edge-body { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; align-items: center; padding: 64px var(--space-5) var(--space-4); overflow: hidden; }
+    .edge-face { flex: none; width: 120px; height: 120px; position: relative; }
+    .edge-face .cf-face { width: 120px; height: 120px; background: var(--chamfi-notice-bg); }
+    .edge-face .cf-face img { top: 0; }
+    .edge-title { margin-top: var(--space-10); display: flex; flex-direction: column; align-items: center; gap: var(--space-2); text-align: center; width: 100%; }
+    .edge-notice { margin-top: var(--space-6); width: 100%; }
+    .edge-cta-2 { display: flex; flex-direction: column; gap: var(--space-3); }
+    .cf-btn img { width: 16px; height: 16px; }
+</style>
+</head>
+<body>
+  <main class="phone">
+    <header class="cf-header">
+      <a class="cf-back" data-href="result.html" aria-label="뒤로"><img src="assets/icon-back.svg" alt="" /></a>
+    </header>
+    <div class="edge-body">
+      <div class="edge-face">
+        <div class="cf-face">
+          <img src="assets/face-open.png" alt="" class="is-on" />
+          <img src="assets/face-trouble.png" alt="" />
+          <img src="assets/face-smile.png" alt="" />
+        </div>
+      </div>
+      <div class="edge-title">
+        <h1 class="t-title-xl ink">지금 신청할 수 있는<br />상품을 찾지 못했어요</h1>
+        <p class="t-body-sm ink-muted">조건이 바뀌면 다시 조회할 수 있어요</p>
+      </div>
+      <p class="cf-notice edge-notice">조회만으로는 신용점수에 영향이 없어요</p>
+      <div class="cf-spacer"></div>
+    </div>
+
+    <div class="cf-cta edge-cta-2">
+      <a class="cf-btn cf-btn--secondary" data-href="cattle-loading.html">개체 정보 다시 조회하기</a>
+      <a class="cf-btn cf-btn--primary" data-href="home.html">홈으로</a>
+    </div>
+  </main>
+
+  <script src="js/chamfi.js"></script>
+</body>
+</html>

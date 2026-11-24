@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[M-02-T] 테스트 농장 선택 (IR 서버 전용) · CHAM-Fi</title>
+  <link rel="stylesheet" href="css/chamfi.css" />
+  <style>
+    .chip-caution {
+      align-self: flex-start;
+      display: inline-flex; align-items: center;
+      padding: var(--extra-space-3) var(--space-3);
+      border-radius: var(--radius-xs);
+      background: var(--extra-farm-option-bg);
+      color: var(--extra-text-success);
+      font: var(--type-caption-weight) var(--type-caption-size)/var(--type-caption-line) var(--font-family);
+      white-space: nowrap;
+    }
+
+    .options { display: flex; flex-direction: column; gap: var(--space-3); }
+
+    .option {
+      display: flex; align-items: center; gap: var(--space-3);
+      width: 100%;
+      padding: var(--space-4);
+      border: 1px solid var(--chamfi-line);
+      border-radius: var(--radius-md);
+      background: var(--chamfi-surface);
+      text-align: left;
+      color: var(--chamfi-ink);
+      transition: background-color 0.15s, border-color 0.15s;
+    }
+
+    .option__text { flex: 1 1 0; min-width: 0; font: var(--type-title-md-weight) var(--type-title-md-size)/var(--type-title-md-line) var(--font-family); }
+    .option__icon { flex: none; width: 32px; height: 32px; position: relative; }
+    .option__icon img { position: absolute; inset: 0; width: 32px; height: 32px; }
+    .option__icon .sel { display: none; }
+
+    .option.is-selected {
+      background: var(--chamfi-surface-sunken);
+      border-color: var(--chamfi-selected-line);
+      color: var(--chamfi-on-selected);
+    }
+    .option.is-selected .sel { display: block; }
+    .option.is-selected .def { display: none; }
+  </style>
+</head>
+<body>
+  <main class="phone">
+    <header class="cf-header">
+      <a class="cf-back" data-href="shop-home.html" aria-label="뒤로"><img src="assets/icon-back-02t.svg" alt="" /></a>
+    </header>
+
+    <div class="cf-body">
+      <span class="chip-caution">🧑🏼‍💻 IR 테스트 서버 전용 화면</span>
+
+      <div class="cf-title">
+        <h1 class="t-title-xl ink">시연할 농장을<br />선택해 주세요</h1>
+        <p class="t-body-sm ink-muted">선택한 농장의 개체를 축산물이력제에서 불러와요</p>
+      </div>
+
+      <div class="options" id="options">
+        <button class="option is-selected" data-farm="부경축공">
+          <span class="option__text">부경축공 · 26두</span>
+          <span class="option__icon"><img class="sel" src="assets/check-selected.svg" alt="" /><img class="def" src="assets/check-default.svg" alt="" /></span>
+        </button>
+        <button class="option" data-farm="농협부천">
+          <span class="option__text">농협부천 · 100두</span>
+          <span class="option__icon"><img class="sel" src="assets/check-selected.svg" alt="" /><img class="def" src="assets/check-default.svg" alt="" /></span>
+        </button>
+        <button class="option" data-farm="김해축공">
+          <span class="option__text">김해축공 · 150두</span>
+          <span class="option__icon"><img class="sel" src="assets/check-selected.svg" alt="" /><img class="def" src="assets/check-default.svg" alt="" /></span>
+        </button>
+      </div>
+
+      <div class="cf-spacer"></div>
+    </div>
+
+    <div class="cf-cta">
+      <a class="cf-btn cf-btn--primary" data-href="consent.html">이 농장으로 시작하기</a>
+    </div>
+  </main>
+
+  <script src="js/chamfi.js"></script>
+  <script>
+    (function () {
+      var list = document.getElementById("options");
+      list.addEventListener("click", function (e) {
+        var btn = e.target.closest(".option");
+        if (!btn) return;
+        list.querySelectorAll(".option").forEach(function (o) { o.classList.toggle("is-selected", o === btn); });
+      });
+    })();
+  </script>
+</body>
+</html>

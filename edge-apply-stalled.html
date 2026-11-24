@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[M-10-05-07 · M-08-R-S1] 심사 결과 · 진행이 어려움 · CHAM-Fi</title>
+  <link rel="stylesheet" href="css/chamfi.css" />
+  <style>
+    .edge-body { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; align-items: center; padding: 64px var(--space-5) var(--space-4); overflow: hidden; }
+    .edge-face { flex: none; width: 120px; height: 120px; position: relative; }
+    .edge-face .cf-face { width: 120px; height: 120px; background: var(--chamfi-notice-bg); }
+    .edge-face .cf-face img { top: 0; }
+    .edge-title { margin-top: var(--space-10); display: flex; flex-direction: column; align-items: center; gap: var(--space-2); text-align: center; width: 100%; }
+    .edge-notice { margin-top: var(--space-6); width: 100%; }
+    .edge-cta-2 { display: flex; flex-direction: column; gap: var(--space-3); }
+    .cf-btn img { width: 16px; height: 16px; }
+
+    .detail { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; gap: var(--space-10); padding: 20px var(--space-5) var(--space-4); overflow: hidden; }
+    .detail__title { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-2); }
+    .detail__stack { display: flex; flex-direction: column; gap: 24px; }
+    .result { display: flex; flex-direction: column; gap: var(--space-4); padding: var(--space-5); border: 1px solid var(--chamfi-line); border-radius: var(--radius-xl); background: var(--chamfi-surface); }
+    .result__head { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-2); }
+    .chip-source { padding: var(--space-1) var(--space-2); border-radius: var(--radius-pill); background: var(--chamfi-notice-bg); color: var(--chamfi-primary); font: var(--type-micro-weight) var(--type-micro-size)/var(--type-micro-line) var(--font-family); white-space: nowrap; }
+    .rows { display: flex; flex-direction: column; gap: var(--space-1); margin: 0; }
+    .rows div { display: flex; justify-content: space-between; font: var(--type-body-weight) var(--type-body-size)/var(--type-body-line) var(--font-family); white-space: nowrap; }
+    .rows dt { color: var(--chamfi-ink-muted); }
+    .rows dd { margin: 0; font-weight: var(--font-weight-semibold); color: var(--chamfi-ink); text-align: right; }
+    .progress-card { display: flex; flex-direction: column; gap: var(--space-4); padding: var(--space-5) var(--space-4); border-radius: var(--radius-xl); background: var(--chamfi-bg); }
+</style>
+</head>
+<body>
+  <main class="phone">
+    <header class="cf-header">
+      <a class="cf-back" data-href="home.html" aria-label="뒤로"><img src="assets/icon-back-08r.svg" alt="" /></a>
+    </header>
+
+    <div class="detail">
+      <div class="detail__title">
+        <span class="cf-chip">축우담보 운영자금 · 11.27 통지</span>
+        <h1 class="t-headline ink">참참축협에서<br />심사 결과를 알려 왔어요</h1>
+      </div>
+
+      <div class="detail__stack">
+        <section class="result">
+          <div class="result__head">
+            <span class="chip-source">참참축협이 보낸 내용</span>
+            <p class="t-title-xl ink">이번에는 진행이 어려워요</p>
+          </div>
+          <dl class="rows" style="margin:0">
+            <div><dt>안내</dt><dd>참참축협 심사 기준에 맞지 않음</dd></div>
+            <div><dt>다시 신청</dt><dd>30일 뒤부터 가능</dd></div>
+          </dl>
+        </section>
+
+        <section class="progress-card">
+          <p class="t-title-sm ink">진행 현황</p>
+    <div class="cf-progress">
+          <div class="cf-step">
+            <div class="cf-step__track">
+              <span class="cf-step__line cf-step__line--hidden"></span>
+              <img class="cf-step__dot" src="assets/step-done.svg" alt="" />
+              <span class="cf-step__line cf-step__line--on"></span>
+            </div>
+            <p class="cf-step__label">신청 진행</p>
+          </div>
+          <div class="cf-step">
+            <div class="cf-step__track">
+              <span class="cf-step__line cf-step__line--on"></span>
+              <img class="cf-step__dot" src="assets/step-done.svg" alt="" />
+              <span class="cf-step__line cf-step__line--on"></span>
+            </div>
+            <p class="cf-step__label">금융사 접수</p>
+          </div>
+          <div class="cf-step">
+            <div class="cf-step__track">
+              <span class="cf-step__line cf-step__line--on"></span>
+              <img class="cf-step__dot" src="assets/step-done.svg" alt="" />
+              <span class="cf-step__line cf-step__line--on"></span>
+            </div>
+            <p class="cf-step__label">심사</p>
+          </div>
+          <div class="cf-step">
+            <div class="cf-step__track cf-step__track--current"><img src="assets/step-current-m09.svg" alt="" /></div>
+            <p class="cf-step__label">결과 안내</p>
+          </div>
+        </div>
+        </section>
+
+        <p class="cf-notice">지난 사유는 참참축협에 문의해 주세요<br />다른 금융사 상품은 다시 조회할 수 있어요</p>
+
+        <p class="t-caption ink-subtle">위 내용은 참참축협이 보낸 결과이며 CHAM-Fi가 정한 것이 아니에요. 대출 이용은 사료 구매와 무관해요.</p>
+      </div>
+
+      <div class="cf-spacer"></div>
+    </div>
+
+    <div class="cf-cta">
+      <a class="cf-btn cf-btn--secondary" data-toast="참참축협 문의는 프로토타입에 연결되지 않았어요">참참축협에 문의하기</a>
+      <a class="cf-btn cf-btn--primary" data-href="finance-loading.html">다른 상품 조회하기</a>
+    </div>
+  </main>
+
+  <script src="js/chamfi.js"></script>
+</body>
+</html>

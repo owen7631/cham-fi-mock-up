@@ -1,0 +1,268 @@
+/* ==========================================================================
+   CHAM-Fi · Design tokens
+   Source : Figma  CCBIO_V1.0.0 › CHAM-Fi 스타일 가이드 (2026-11-23)
+            https://www.figma.com/design/Yb4TFEyZTg0tvLH8gxekRA/CCBIO_V1.0.0?node-id=4675-21213
+   규칙   : 화면 CSS 에는 hex / px 를 직접 쓰지 않고 이 파일의 토큰(var(--…))만 사용한다.
+            Figma 변수 이름  chamfi/ink  →  CSS  --chamfi-ink
+                              chamfi/space/4  →  --space-4
+                              CHAM-Fi/title-xl  →  --type-title-xl-*   (+ 클래스 .t-title-xl)
+   ========================================================================== */
+
+:root {
+  /* ------------------------------------------------------------------------
+     2. 색  ·  Color 변수 39개  (스타일 가이드 "색" 섹션 순서)
+     ------------------------------------------------------------------------ */
+
+  /* 배경 · 면 */
+  --chamfi-bg: #f4f6fa;
+  --chamfi-surface: #ffffff;
+  --chamfi-surface-sunken: #ebeff5;
+
+  /* 히어로 (네이비 그라데이션 카드) */
+  --chamfi-hero-from: #0b2a5d;
+  --chamfi-hero-to: #05142d;
+  --chamfi-on-hero: #ffffff;
+  --chamfi-on-hero-muted: #c9d6ee;
+
+  /* 선 */
+  --chamfi-line: #dce2ec;
+  --chamfi-line-strong: #7f8aa0;
+
+  /* 글자 */
+  --chamfi-ink: #121826;
+  --chamfi-ink-muted: #4f5a70;
+  --chamfi-ink-subtle: #66728a;
+
+  /* 브랜드 · 선택 */
+  --chamfi-primary: #0f387b;
+  --chamfi-primary-pressed: #0b2a5d;
+  --chamfi-on-primary: #ffffff;
+  --chamfi-selected-bg: #dce6f4;
+  --chamfi-selected-line: #b5c8e6;
+  --chamfi-on-selected: #0b2a5d;
+  --chamfi-accent: #d2801e;
+
+  /* 시세 */
+  --chamfi-rise: #c2412d;
+  --chamfi-fall: #2463a6;
+
+  /* 안내 · 광고 · 정책 */
+  --chamfi-notice-bg: #eef3fa;
+  --chamfi-on-notice: #0b2a5d;
+  --chamfi-ad-bg: #ebeff5;
+  --chamfi-on-ad: #4f5a70;
+  --chamfi-policy-bg: #081e43;
+  --chamfi-on-policy: #ffffff;
+
+  /* 상태 */
+  --chamfi-danger: #c2412d;
+  --chamfi-danger-bg: #fdedea;
+  --chamfi-caution-bg: #fdf5ea;
+  --chamfi-on-caution: #8c510c;
+  --chamfi-focus: #2f60a6;
+  --chamfi-disabled-bg: #c3ccda;
+  --chamfi-overlay: #05142d99;
+
+  /* 버튼 · 컨트롤 · 탭 */
+  --chamfi-button-bg: #2f60a6;
+  --chamfi-button-tonal-bg: #e3ecf8;
+  --chamfi-button-tonal-text: #1854b6;
+  --chamfi-control-line: #c3ccda;
+  --chamfi-tab-inactive: #c3ccda;
+
+  /* 가이드 39색 외에 화면 디자인에서 쓰는 변수 */
+  --chamfi-tab-inactive-text: #8f9aad;
+
+  /* ------------------------------------------------------------------------
+     3. 글자  ·  Text style 17개   (--type-{이름}-{size|line|weight|tracking})
+        tracking 은 Figma 의 % 값을 em 으로 환산 (-2% → -0.02em)
+     ------------------------------------------------------------------------ */
+  --font-family: "Pretendard", "Pretendard Variable", -apple-system, BlinkMacSystemFont,
+    "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+
+  --type-display-size: 34px;      --type-display-line: 40px;      --type-display-weight: 800;     --type-display-tracking: -0.02em;
+  --type-number-lg-size: 30px;    --type-number-lg-line: 38px;    --type-number-lg-weight: 700;   --type-number-lg-tracking: -0.01em;
+  --type-headline-size: 28px;     --type-headline-line: 38px;     --type-headline-weight: 700;    --type-headline-tracking: -0.01em;
+  --type-title-xl-size: 22px;     --type-title-xl-line: 30px;     --type-title-xl-weight: 700;    --type-title-xl-tracking: -0.01em;
+  --type-title-lg-size: 20px;     --type-title-lg-line: 28px;     --type-title-lg-weight: 700;    --type-title-lg-tracking: -0.01em;
+  --type-title-md-size: 17px;     --type-title-md-line: 26px;     --type-title-md-weight: 700;    --type-title-md-tracking: 0;
+  --type-title-sm-size: 15px;     --type-title-sm-line: 22px;     --type-title-sm-weight: 700;    --type-title-sm-tracking: 0;
+  --type-price-lg-size: 20px;     --type-price-lg-line: 28px;     --type-price-lg-weight: 800;    --type-price-lg-tracking: -0.01em;
+  --type-price-size: 16px;        --type-price-line: 24px;        --type-price-weight: 700;       --type-price-tracking: 0;
+  --type-button-size: 17px;       --type-button-line: 26px;       --type-button-weight: 700;      --type-button-tracking: 0;
+  --type-body-lg-size: 16px;      --type-body-lg-line: 26px;      --type-body-lg-weight: 400;     --type-body-lg-tracking: 0;
+  --type-body-size: 15px;         --type-body-line: 24px;         --type-body-weight: 400;        --type-body-tracking: 0;
+  --type-body-strong-size: 15px;  --type-body-strong-line: 24px;  --type-body-strong-weight: 600; --type-body-strong-tracking: 0;
+  --type-body-sm-size: 14px;      --type-body-sm-line: 22px;      --type-body-sm-weight: 400;     --type-body-sm-tracking: 0;
+  --type-body-sm-strong-size: 14px; --type-body-sm-strong-line: 22px; --type-body-sm-strong-weight: 600; --type-body-sm-strong-tracking: 0;
+  --type-caption-size: 13px;      --type-caption-line: 20px;      --type-caption-weight: 600;     --type-caption-tracking: 0;
+  --type-micro-size: 12.5px;      --type-micro-line: 18px;        --type-micro-weight: 500;       --type-micro-tracking: 0;
+
+  /* ------------------------------------------------------------------------
+     4. 간격 · 모서리 · 크기  ·  Size 변수
+     ------------------------------------------------------------------------ */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 12px;
+  --radius-lg: 14px;
+  --radius-xl: 16px;
+  --radius-2xl: 22px;
+  --radius-pill: 999px;
+
+  --size-touch-min: 44px;
+  --size-header-h: 57px;
+  --size-tabbar-h: 78px;
+  --size-cta-h: 54px;
+  --size-option-h: 44px;
+  --size-chip-h: 23px;
+
+  /* ------------------------------------------------------------------------
+     가이드 밖 보조 토큰  (목업에서만 쓰는 값 · Figma 변수 아님)
+     ------------------------------------------------------------------------ */
+  --extra-card-selected-border: #5a90dd;
+  --extra-text-success: #2e7d32;
+  --extra-ink-toast: #121826eb;          /* ink 92% */
+  --extra-on-toast: #ffffff;
+  --extra-stage: #1c1d21;                /* 데스크톱에서 폰 프레임 뒤 배경 */
+
+  --extra-control-line-soft: #e2e6ed;    /* 필터 칩 테두리 */
+  --extra-chip-ad-bg: #aeb4be;           /* 광고 칩 */
+  --extra-badge-chukhyup: #1f8a5b;
+  --extra-badge-bank: #6591d7;
+  --extra-badge-capital: #9f67b6;
+  --extra-badge-bank-strong: #2463c6;    /* 금융사 조회 화면용 */
+  --extra-badge-capital-strong: #8e44ad;
+  --extra-farm-option-bg: #edf3ec;
+
+  /* CHAM-Fi 출시 배너 (navy) */
+  --banner-from: #1b3f8c;
+  --banner-to: #0b2559;
+  --banner-border: #e8e8e8;
+  --banner-tag-bg: #2f6bf2;
+  --banner-legal: #8fa6d3;
+  --banner-ad-bg: #2f3032;
+  --banner-ad-text: #ffffffcc;
+  --banner-trail-from: #ffffffe6;
+  --banner-trail-to: #ffffff00;
+
+  /* 로딩 화면 링 숫자 */
+  --extra-ring-number: #3569c0;
+  --extra-ring-unit: #87a5d2;
+
+  /* 그림자 */
+  --shadow-phone: 0 30px 80px #00000073;
+  --shadow-card: 0 2px 6px #05142d14;
+  --shadow-card-selected: 0 2px 6px #05142d29;
+  --shadow-sheet: 0 -6px 20px -8px #05142d1a;
+  --shadow-tabbar: 0 -6px 10px #05142d1a;
+  --shadow-dialog: 0 10px 15px #0000002e;
+  --shadow-cta: 0 8px 9px #0b111d59;
+  --shadow-seg: 0 1px 2px #00000014;
+
+  /* ------------------------------------------------------------------------
+     쇼핑몰 기존 화면 (CHAM-Fi 가이드 밖 · 몰 자체 팔레트)
+     ------------------------------------------------------------------------ */
+  --shop-green: #2f4b2d;
+  --shop-text: #222222;
+  --shop-sub: #555555;
+  --shop-mute: #999999;
+  --shop-line: #e9e9e9;
+  --shop-surface: #ffffff;
+  --shop-bg: #f9f9f9;
+  --shop-bg-gray: #f3f3f3;
+
+  /* ------------------------------------------------------------------------
+     목업 전용 · 쇼핑몰 화면 장식 색 (가이드 밖)
+     ------------------------------------------------------------------------ */
+  --shop-gray-2: #eeeeee;
+  --shop-text-2: #777777;
+  --shop-quick-bg: #f4f3ee;
+  --shop-ai-from: #2f9e6b;
+  --shop-ai-mid: #3a62d8;
+  --shop-ai-to: #8c4fe0;
+  --shop-alert-bg: #ffeceb;
+  --shop-alert-text: #d92d20;
+  --shop-gauge-low: #5bc0de;
+  --shop-gauge-mid: #f0c20c;
+  --shop-gauge-high: #d9342b;
+  --shop-needle: #444444;
+  --shop-price-accent: #ff7800;
+  --shop-kakao-bg: #fee100;
+  --shop-kakao-text: #381e1e;
+  --shop-naver-bg: #03a94d;
+  --shop-prod-a-from: #d9cfae;  --shop-prod-a-to: #b9a56f;
+  --shop-prod-b-from: #cbd8a4;  --shop-prod-b-to: #8fa65a;
+  --shop-prod-c-from: #b9d3a2;  --shop-prod-c-to: #6f9a4b;
+  --shop-news-a-from: #e7efe4;  --shop-news-a-to: #c5d6bd;
+  --shop-news-b-from: #e9e4f4;  --shop-news-b-to: #c8bfe3;
+
+  /* ------------------------------------------------------------------------
+     목업 전용 · 목업 목록(index.html) 화면
+     ------------------------------------------------------------------------ */
+  --index-bg: #14161a;
+  --index-text: #e9edf5;
+  --index-text-muted: #9aa6bd;
+  --index-code: #6f9bf0;
+  --shadow-tile: 0 10px 30px #00000066;
+
+  /* 8px 그리드 밖 간격 (목업 보정) */
+  --extra-gap-2: 2px;
+  --extra-gap-6: 6px;
+  --extra-gap-10: 10px;
+
+  /* 쇼핑몰 · 목업 페이지 글자 크기 (가이드 밖) */
+  --fs-11: 11px;
+  --fs-12: 12px;
+  --fs-13: 13px;
+  --fs-14: 14px;
+  --fs-16: 16px;
+  --fs-18: 18px;
+  --fs-20: 20px;
+  --fs-22: 22px;
+  --fs-24: 24px;
+  --fs-28: 28px;
+  --fs-30: 30px;
+  --fs-40: 40px;
+
+  /* 로딩 화면 링 숫자 (가이드 밖) */
+  --type-ring-number-size: 58px;
+  --type-ring-number-weight: 900;
+  --type-ring-unit-size: 24px;
+  --type-ring-unit-weight: 700;
+
+  /* 글자 굵기 (Pretendard 굵기 단계) */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --font-weight-black: 900;
+
+  /* 스케일 밖 간격 · 모서리 (목업 보정 · 가이드 밖) */
+  --extra-space-3: 3px;
+  --extra-space-5: 5px;
+  --extra-space-9: 9px;
+  --extra-space-15: 15px;
+  --extra-space-22: 22px;
+  --extra-space-28: 28px;
+  --extra-space-56: 56px;
+  --extra-space-86: 86px;
+  --extra-space-96: 96px;
+  --extra-radius-4: 4px;
+  --extra-radius-11: 11px;
+  --extra-radius-hairline: 1.867px;
+  --extra-radius-1: 1px;
+  --extra-radius-20: 20px;     /* CHAM-Fi 출시 배너 */
+  --extra-radius-28: 28px;     /* 폰 프레임 */
+  --extra-space-30: 30px;
+}

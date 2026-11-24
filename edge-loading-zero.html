@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[M-10-03-16 · M-03-W-E2] 등록 개체 없음 (0두) · CHAM-Fi</title>
+  <link rel="stylesheet" href="css/chamfi.css" />
+  <style>
+    .edge-body { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; align-items: center; padding: 64px var(--space-5) var(--space-4); overflow: hidden; }
+    .edge-face { flex: none; width: 120px; height: 120px; position: relative; }
+    .edge-face .cf-face { width: 120px; height: 120px; background: var(--chamfi-notice-bg); }
+    .edge-face .cf-face img { top: 0; }
+    .edge-title { margin-top: var(--space-10); display: flex; flex-direction: column; align-items: center; gap: var(--space-2); text-align: center; width: 100%; }
+    .edge-notice { margin-top: var(--space-6); width: 100%; }
+    .edge-cta-2 { display: flex; flex-direction: column; gap: var(--space-3); }
+    .cf-btn img { width: 16px; height: 16px; }
+</style>
+</head>
+<body>
+  <main class="phone">
+    <header class="cf-header cf-header--exit">
+      <a class="cf-exit" data-href="shop-home.html">나가기</a>
+    </header>
+    <div class="edge-body">
+      <div class="edge-face">
+        <div class="cf-face">
+          <img src="assets/face-open.png" alt="" class="is-on" />
+          <img src="assets/face-trouble.png" alt="" />
+          <img src="assets/face-smile.png" alt="" />
+        </div>
+      </div>
+      <div class="edge-title">
+        <h1 class="t-title-xl ink">이 농장에 등록된<br />개체를 찾지 못했어요</h1>
+        <p class="t-body-sm ink-muted">축산물이력제에 사육 개체가 등록돼 있는지 확인해 주세요</p>
+      </div>
+      <div class="cf-spacer"></div>
+    </div>
+
+    <div class="cf-cta edge-cta-2">
+      <a class="cf-btn cf-btn--secondary" data-href="shop-home.html">홈으로</a>
+      <a class="cf-btn cf-btn--primary" data-href="farm-select.html">다른 농장 선택하기</a>
+    </div>
+  </main>
+
+  <script src="js/chamfi.js"></script>
+</body>
+</html>

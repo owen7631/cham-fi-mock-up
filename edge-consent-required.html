@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[M-10-02-02 · M-01-S1] 필수 동의 완료 · CHAM-Fi</title>
+  <link rel="stylesheet" href="css/chamfi.css" />
+  <style>
+    .consent { display: flex; flex-direction: column; }
+
+    .consent__all {
+      display: flex; align-items: center; gap: var(--space-3);
+      width: 100%;
+      padding: var(--space-3) var(--space-4);
+      border-radius: var(--radius-md);
+      background: var(--chamfi-bg);
+      text-align: left;
+    }
+
+    .consent__item {
+      display: flex; align-items: center; gap: var(--space-3);
+      min-height: 44px;
+      padding: 0 var(--space-4);
+    }
+
+    .consent__toggle { display: flex; align-items: center; gap: var(--space-3); flex: 1 1 0; min-width: 0; text-align: left; cursor: pointer; }
+
+    .consent__label { flex: 1 1 0; min-width: 0; display: flex; gap: var(--extra-gap-6); font: var(--type-body-weight) var(--type-body-size)/var(--type-body-line) var(--font-family); }
+    .consent__label .tag { flex: none; font-weight: var(--font-weight-semibold); color: var(--chamfi-primary); }
+    .consent__label .tag--opt { color: var(--chamfi-ink-subtle); }
+    .consent__chev { flex: none; width: 24px; height: 24px; }
+
+    .consent__note { padding: var(--space-2) var(--space-4) 0; }
+  </style>
+</head>
+<body>
+  <main class="phone">
+    <header class="cf-header">
+      <a class="cf-back" data-href="farm-select.html" aria-label="뒤로"><img src="assets/icon-back.svg" alt="" /></a>
+    </header>
+
+    <div class="cf-body">
+      <div class="cf-title">
+        <h1 class="t-title-xl ink">부경축공 님의 소 자산을<br />지금 확인해 볼게요</h1>
+        <p class="t-body-sm ink-muted">축산물이력제 정보로 소마다 담보가치를 산출해요</p>
+      </div>
+
+      <div class="cf-infocard">
+        <div class="cf-infocard__item">
+          <p class="t-body-sm ink-subtle">확인 대상</p>
+          <p class="t-title-md ink">한우 거세우</p>
+        </div>
+        <div class="cf-infocard__divider"></div>
+        <div class="cf-infocard__item">
+          <p class="t-body-sm ink-subtle">제공 대상</p>
+          <p class="t-title-md ink">연계 금융기관</p>
+        </div>
+      </div>
+
+      <div class="cf-spacer"></div>
+
+      <div class="consent" id="consent">
+        <button class="consent__all" id="all" type="button">
+          <span class="cf-check" data-check><img class="off" src="assets/checkbox-off.svg" alt="" /><img class="on" src="assets/checkbox-on.svg" alt="" /></span>
+          <span class="t-title-sm ink" style="flex:1">전체 동의</span>
+        </button>
+
+        <div class="consent__item">
+          <button class="consent__toggle" type="button" data-item data-required>
+            <span class="cf-check is-on" data-check><img class="off" src="assets/checkbox-off.svg" alt="" /><img class="on" src="assets/checkbox-on.svg" alt="" /></span>
+            <span class="consent__label"><span class="tag">필수</span><span class="ink">이용약관 및 개인정보 수집·이용 동의</span></span>
+          </button>
+          <img class="consent__chev" src="assets/icon-chevron-down.svg" alt="" />
+        </div>
+
+        <div class="consent__item">
+          <button class="consent__toggle" type="button" data-item data-required>
+            <span class="cf-check is-on" data-check><img class="off" src="assets/checkbox-off.svg" alt="" /><img class="on" src="assets/checkbox-on.svg" alt="" /></span>
+            <span class="consent__label"><span class="tag">필수</span><span class="ink">본인 확인 서비스 이용 동의</span></span>
+          </button>
+          <img class="consent__chev" src="assets/icon-chevron-down.svg" alt="" />
+        </div>
+
+        <div class="consent__item">
+          <button class="consent__toggle" type="button" data-item data-required>
+            <span class="cf-check is-on" data-check><img class="off" src="assets/checkbox-off.svg" alt="" /><img class="on" src="assets/checkbox-on.svg" alt="" /></span>
+            <span class="consent__label"><span class="tag">필수</span><span class="ink">축산물이력정보 조회 동의 (금융 목적 포함)</span></span>
+          </button>
+          <img class="consent__chev" src="assets/icon-chevron-down.svg" alt="" />
+        </div>
+
+        <div class="consent__item">
+          <button class="consent__toggle" type="button" data-item>
+            <span class="cf-check" data-check><img class="off" src="assets/checkbox-off.svg" alt="" /><img class="on" src="assets/checkbox-on.svg" alt="" /></span>
+            <span class="consent__label"><span class="tag tag--opt">선택</span><span class="ink">사료 구매 이력 활용 동의 (산출 참고)</span></span>
+          </button>
+          <img class="consent__chev" src="assets/icon-chevron-down.svg" alt="" />
+        </div>
+
+        <p class="consent__note t-micro ink-subtle">동의는 내정보 › 동의 관리에서 언제든 철회할 수 있어요</p>
+      </div>
+    </div>
+
+    <div class="cf-cta">
+      <a class="cf-btn cf-btn--primary" id="submit" data-href="cattle-loading.html">동의하기</a>
+    </div>
+  </main>
+
+  <script src="js/chamfi.js"></script>
+  <script>
+    (function () {
+      var items = Array.prototype.slice.call(document.querySelectorAll("[data-item]"));
+      var all = document.getElementById("all");
+      var submit = document.getElementById("submit");
+
+      function box(el) { return el.querySelector("[data-check]"); }
+      function isOn(el) { return box(el).classList.contains("is-on"); }
+
+      function sync() {
+        box(all).classList.toggle("is-on", items.every(isOn));
+        var ok = items.filter(function (i) { return i.hasAttribute("data-required"); }).every(isOn);
+        submit.classList.toggle("is-disabled", !ok);
+        if (ok) submit.setAttribute("data-href", "cattle-loading.html");
+        else submit.removeAttribute("data-href");
+      }
+
+      sync();
+      items.forEach(function (item) {
+        item.addEventListener("click", function () {
+          box(item).classList.toggle("is-on");
+          sync();
+        });
+      });
+
+      all.addEventListener("click", function () {
+        var next = !items.every(isOn);
+        items.forEach(function (i) { box(i).classList.toggle("is-on", next); });
+        sync();
+      });
+    })();
+  </script>
+</body>
+</html>

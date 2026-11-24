@@ -83,6 +83,7 @@
     </div>
   </main>
 
+  <script src="js/farm.js"></script>
   <script src="js/chamfi.js"></script>
   <script>
     (function () {
@@ -91,6 +92,7 @@
         var btn = e.target.closest(".option");
         if (!btn) return;
         list.querySelectorAll(".option").forEach(function (o) { o.classList.toggle("is-selected", o === btn); });
+        cfFarm.set(btn.getAttribute("data-farm"));
         var go = document.getElementById("submit");
         go.classList.remove("is-disabled"); go.setAttribute("data-href", "consent.html");
       });

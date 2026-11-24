@@ -818,7 +818,8 @@ img {
 
 .cf-tab.is-active .cf-bars i { background: var(--chamfi-primary); }
 
-.cf-tab__new {
+/* .cf-tab__icon img(28×28) 보다 우선하도록 선택자를 맞춘다 */
+.cf-tab__icon .cf-tab__new {
   position: absolute;
   left: 25px;
   top: -2px;

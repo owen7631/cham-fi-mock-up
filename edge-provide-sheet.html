@@ -62,21 +62,21 @@
     <div class="cf-scroll" style="padding-bottom: var(--space-8);">
       <div class="hero">
         <p class="t-body-sm-strong primary">축산물이력제 11.20 기준</p>
-        <h1 class="t-headline ink">부경축공 님 농장에서<br />거세우 8두를 확인했어요</h1>
+        <h1 class="t-headline ink"><span data-f="name">부경축공</span> 님 농장에서<br />거세우 <span data-f="steer">8</span>두를 확인했어요</h1>
       </div>
 
       <div class="stack">
         <div class="value">
           <div class="value__main">
             <p class="t-body-sm-strong ink-muted">내 소 자산 (현재 추정 시세)</p>
-            <p class="t-display ink">약 7,190만 원</p>
+            <p class="t-display ink" data-f="asset">약 7,190만 원</p>
           </div>
           <div class="value__divider"></div>
           <div class="summary">
             <img src="assets/icon-bank.svg" alt="" />
             <div class="summary__text">
               <p class="t-caption ink-subtle">담보가치인정액 (추정)</p>
-              <p class="t-title-md ink" id="amount">약 4,110만 원</p>
+              <p class="t-title-md ink" id="amount" data-f="collateralOn">약 0만 원</p>
             </div>
           </div>
         </div>
@@ -137,6 +137,7 @@
 
   </main>
 
+  <script src="js/farm.js"></script>
   <script src="js/chamfi.js"></script>
   <script>
     (function () {
@@ -157,7 +158,8 @@
       ins.addEventListener("click", function () {
         var on = ins.classList.toggle("is-on");
         ins.setAttribute("aria-pressed", on);
-        amount.textContent = on ? "약 4,110만 원" : "약 2,880만 원";
+        amount.textContent = on ? cfFarm.values().collateralOn : cfFarm.values().collateralOff;
+        cfFarm.setInsured(on);
         insSub.textContent = on ? "보험 가입 정보는 담보가치 산출에 반영돼요" : "가입하지 않으면 담보가치인정액이 낮게 산출돼요";
       });
 

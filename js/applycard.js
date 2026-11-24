@@ -2,10 +2,11 @@
 (function () {
   "use strict";
 
+  var farmName = window.cfFarm ? window.cfFarm.get().name : "부경축공";
   var STAGES = {
-    2: { title: "부경축공 님, 신청이 접수됐어요", sub: "참참축협에서 심사를 준비하고 있어요" },
-    3: { title: "부경축공 님, 심사가 진행 중이에요", sub: "참참축협에서 신청 내용을 심사하고 있어요" },
-    4: { title: "부경축공 님, 심사 결과가 나왔어요", sub: "참참축협에서 보낸 결과를 확인해 주세요" }
+    2: { title: farmName + " 님, 신청이 접수됐어요", sub: "참참축협에서 심사를 준비하고 있어요" },
+    3: { title: farmName + " 님, 심사가 진행 중이에요", sub: "참참축협에서 신청 내용을 심사하고 있어요" },
+    4: { title: farmName + " 님, 심사 결과가 나왔어요", sub: "참참축협에서 보낸 결과를 확인해 주세요" }
   };
   var LABELS = ["신청 진행", "금융사 접수", "심사", "결과 안내"];
 
@@ -69,6 +70,8 @@
   }
 
   function init(card) {
+    // 신청 현황 카드가 보이는 화면 = 신청이 진행 중인 상태
+    if (window.cfFarm && !window.cfFarm.applied()) { window.cfFarm.setApplied(); window.cfFarm.syncTabDot(); }
     var stage = parseInt(card.getAttribute("data-stage"), 10) || 2;
     var finalHref = card.getAttribute("data-final-href");
     var busy = false;

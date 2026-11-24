@@ -79,18 +79,26 @@
     </div>
 
     <div class="cf-cta">
-      <a class="cf-btn cf-btn--primary" data-href="consent.html">이 농장으로 시작하기</a>
+      <a class="cf-btn cf-btn--primary" id="start" data-href="consent.html">이 농장으로 시작하기</a>
     </div>
   </main>
 
+  <script src="js/farm.js"></script>
   <script src="js/chamfi.js"></script>
   <script>
     (function () {
       var list = document.getElementById("options");
+      var start = document.getElementById("start");
+      var saved = cfFarm.get().name;
+      list.querySelectorAll(".option").forEach(function (o) { o.classList.toggle("is-selected", o.getAttribute("data-farm") === saved); });
+      function syncStart() { start.setAttribute("data-href", cfFarm.nextAfterFarm(cfFarm.get().name)); }
+      syncStart();
       list.addEventListener("click", function (e) {
         var btn = e.target.closest(".option");
         if (!btn) return;
         list.querySelectorAll(".option").forEach(function (o) { o.classList.toggle("is-selected", o === btn); });
+        cfFarm.set(btn.getAttribute("data-farm"));
+        syncStart();
       });
     })();
   </script>

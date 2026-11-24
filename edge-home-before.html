@@ -71,7 +71,7 @@
     <div class="home">
       <section class="applycard">
         <div class="applycard__head">
-          <p class="t-title-lg ink">부경축공 님, 내 소 자산으로<br />금융사 대출 조회를 시작해 볼까요?</p>
+          <p class="t-title-lg ink"><span data-f="name">부경축공</span> 님, 내 소 자산으로<br />금융사 대출 조회를 시작해 볼까요?</p>
           <p class="t-body-sm ink-muted">내 소 자산으로 신청할 수 있는 상품을 찾아드려요</p>
         </div>
         <a class="cf-btn cf-btn--primary" data-href="cattle-loading.html">금융사 조회하기<img src="assets/icon-arrow.svg" alt="" /></a>
@@ -85,20 +85,20 @@
           </div>
           <div class="asset__value">
             <p class="t-body-sm asset__sub">현재 추정 시세</p>
-            <p class="t-display">약 7,190만 원</p>
+            <p class="t-display" data-f="asset">약 7,190만 원</p>
           </div>
           <div style="display:flex;flex-direction:column;gap:var(--space-4)">
-            <div class="share"><span class="share__on"></span><span class="share__off"></span></div>
+            <div class="share"><span class="share__on" data-f-width="share"></span><span class="share__off"></span></div>
             <div class="legend">
               <div class="legend__row">
                 <img src="assets/legend-dot-accent.svg" alt="" />
-                <div class="l"><b>산정 대상</b><span>전체 26두</span></div>
-                <b>거세우 8두</b>
+                <div class="l"><b>산정 대상</b><span>전체 <span data-f="total">26</span>두</span></div>
+                <b>거세우 <span data-f="steer">8</span>두</b>
               </div>
               <div class="legend__row">
                 <img src="assets/legend-dot-muted.svg" alt="" />
-                <div class="l"><b>대상 아님</b><span>수 10두 · 암 8두</span></div>
-                <b>18두</b>
+                <div class="l"><b>대상 아님</b><span>수 <span data-f="male">10</span>두 · 암 <span data-f="female">8</span>두</span></div>
+                <b><span data-f="nonTarget">18</span>두</b>
               </div>
             </div>
           </div>
@@ -110,7 +110,7 @@
               <p class="t-body-strong ink">담보가치인정액</p>
               <p class="t-micro ink-subtle">금융사 추정 금액</p>
             </div>
-            <p class="t-title-lg ink summary__amount">약 4,110만 원</p>
+            <p class="t-title-lg ink summary__amount" data-f="collateral">약 4,110만 원</p>
           </div>
           <a class="cf-btn cf-btn--tonal" data-href="cattle-loading.html">
             개체 정보 다시 조회하기<img src="assets/icon-arrow.svg" alt="" />
@@ -135,6 +135,7 @@
     </nav>
   </main>
 
+  <script src="js/farm.js"></script>
   <script src="js/chamfi.js"></script>
 </body>
 </html>

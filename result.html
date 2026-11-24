@@ -74,7 +74,7 @@
     <div class="cf-scroll">
       <div class="hero">
         <p class="t-body-sm-strong primary">11.20 14:20 기준 · 금융사 심사 결과</p>
-        <h1 class="t-headline ink">부경축공 님이 신청할 수 있는<br />상품을 3개 찾았어요</h1>
+        <h1 class="t-headline ink"><span data-f="name">부경축공</span> 님이 신청할 수 있는<br />상품을 3개 찾았어요</h1>
       </div>
 
       <div class="list-wrap">
@@ -99,6 +99,7 @@
     </div>
   </main>
 
+  <script src="js/farm.js"></script>
   <script src="js/chamfi.js"></script>
   <script>
     (function () {
@@ -110,6 +111,12 @@
         { id: "capital",  badge: "캐", color: "var(--extra-badge-capital)", name: "참참캐피탈", product: "축우담보대출",     rateMin: 7.9, rate: "연 7.9~9.4%", limitVal: 9500,  limit: "최대 9,500만 원",
           tags: ["축우담보"], chips: ["축우담보"], ad: true }
       ];
+
+      // 선택 농장 · 보험 여부에 맞춰 한도 환산
+      loans.forEach(function (l) {
+        l.limitVal = cfFarm.limit(l.limitVal);
+        l.limit = "최대 " + cfFarm.fmtMan(l.limitVal) + " 원";
+      });
 
       var state = { sort: "rate", filter: "all", selected: "chukhyup" };
       var listEl = document.getElementById("loans");

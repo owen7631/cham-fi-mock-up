@@ -15,6 +15,7 @@
     var el = e.target.closest("[data-href]");
     if (!el || el.classList.contains("is-disabled")) return;
     var href = el.getAttribute("data-href");
+    if (el.hasAttribute("data-cf-entry") && window.cfFarm) href = cfFarm.entry();
     if (href) {
       e.preventDefault();
       window.location.href = href;

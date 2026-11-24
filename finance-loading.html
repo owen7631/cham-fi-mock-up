@@ -69,6 +69,7 @@
     </div>
   </main>
 
+  <script src="js/farm.js"></script>
   <script src="js/chamfi.js"></script>
   <script>
     (function () {
@@ -98,7 +99,7 @@
         el.innerHTML =
           '<div class="cf-badge cf-badge--36" style="background:' + b.color + '">' + b.badge + "</div>" +
           '<div class="cf-resultrow__text"><p class="t-title-md ink">' + b.name + '</p><p class="t-body-sm ink-muted">' + b.sub + "</p></div>" +
-          '<div class="cf-resultrow__rate"><p class="t-price primary">' + b.rate + '</p><p class="t-body-sm ink-muted">' + b.limit + "</p></div>";
+          '<div class="cf-resultrow__rate"><p class="t-price primary">' + b.rate + '</p><p class="t-body-sm ink-muted">' + "최대 " + cfFarm.fmtMan(cfFarm.limit(b.limitBase)) + " 원" + "</p></div>";
         rowsEl.appendChild(el);
       }
 

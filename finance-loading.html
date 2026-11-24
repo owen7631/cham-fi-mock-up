@@ -93,9 +93,9 @@
       var FADE_MS = 350;
 
       var banks = [
-        { badge: "축", color: "var(--extra-badge-chukhyup)", name: "참참축협",   sub: "축우담보 운영자금", rate: "연 4.6~5.2%", limitBase: 10000 },
-        { badge: "은", color: "var(--extra-badge-bank-strong)", name: "참참은행",   sub: "축산 운영자금대출", rate: "연 5.1~5.9%", limitBase: 8000 },
-        { badge: "캐", color: "var(--extra-badge-capital-strong)", name: "참참캐피탈", sub: "축우담보대출",     rate: "연 7.9~9.4%", limitBase: 12000 }
+        { badge: "축", color: "var(--extra-badge-chukhyup)", name: "참참축협",   sub: "축우담보 운영자금", rate: "연 4.6~5.2%", limitBase: cfFarm.PRODUCTS.chukhyup.limitBase },
+        { badge: "은", color: "var(--extra-badge-bank-strong)", name: "참참은행",   sub: "축산 운영자금대출", rate: "연 5.1~5.9%", limitBase: cfFarm.PRODUCTS.bank.limitBase },
+        { badge: "캐", color: "var(--extra-badge-capital-strong)", name: "참참캐피탈", sub: "축우담보대출",     rate: "연 7.9~9.4%", limitBase: cfFarm.PRODUCTS.capital.limitBase }
       ];
 
       var stages = [

@@ -109,17 +109,17 @@
   <script>
     (function () {
       var loans = [
-        { id: "chukhyup", badge: "축", color: "var(--extra-badge-chukhyup)", name: "참참축협",   product: "축우담보 운영자금", rateMin: 4.6, rate: "연 4.6~5.2%", limitVal: 10000, limit: "최대 1억 원",
+        { id: "chukhyup", badge: "축", color: "var(--extra-badge-chukhyup)", name: "참참축협",   product: "축우담보 운영자금", rateMin: 4.6, rate: "연 4.6~5.2%", limitVal: 0, limit: "",
           tags: ["축우담보", "정책자금", "오늘 입금", "운영자금"], chips: ["축우담보", "정책자금", "오늘 입금"] },
-        { id: "bank",     badge: "은", color: "var(--extra-badge-bank)", name: "참참은행",   product: "축산 운영자금대출", rateMin: 5.1, rate: "연 5.1~5.9%", limitVal: 8000,  limit: "최대 8,000만 원",
+        { id: "bank",     badge: "은", color: "var(--extra-badge-bank)", name: "참참은행",   product: "축산 운영자금대출", rateMin: 5.1, rate: "연 5.1~5.9%", limitVal: 0,  limit: "",
           tags: ["축우담보", "중도상환 수수료 0원", "운영자금"], chips: ["축우담보", "중도상환 수수료 0원"] },
-        { id: "capital",  badge: "캐", color: "var(--extra-badge-capital)", name: "참참캐피탈", product: "축우담보대출",     rateMin: 7.9, rate: "연 7.9~9.4%", limitVal: 9500,  limit: "최대 9,500만 원",
+        { id: "capital",  badge: "캐", color: "var(--extra-badge-capital)", name: "참참캐피탈", product: "축우담보대출",     rateMin: 7.9, rate: "연 7.9~9.4%", limitVal: 0,  limit: "",
           tags: ["축우담보"], chips: ["축우담보"], ad: true }
       ];
 
-      // 선택 농장 · 보험 여부에 맞춰 한도 환산
+      // 기준 한도는 금융사 조회(M-05)와 같은 cfFarm.PRODUCTS 값 → 선택 농장 · 보험 여부에 맞춰 환산
       loans.forEach(function (l) {
-        l.limitVal = cfFarm.limit(l.limitVal);
+        l.limitVal = cfFarm.limit(cfFarm.PRODUCTS[l.id].limitBase);
         l.limit = "최대 " + cfFarm.fmtMan(l.limitVal) + " 원";
       });
 

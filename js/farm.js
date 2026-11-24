@@ -14,7 +14,10 @@
  *   금융사 한도      = 기준 한도 × (담보가치 ÷ 4,110만 원)  → 부경축공(가입)이면 Figma 값 그대로
  *
  * 농협부천 · 김해축공은 두수와 자산 · 담보인정가액(가입)을 원 단위로 직접 둔다.
- * 미가입 담보는 그 자산의 40%로 둔다.
+ * 미가입 담보는 가입 담보 × (40% ÷ 57.2%) ≈ 70% 로 둔다 (부경축공과 같은 비율 · 항상 가입 금액보다 낮음).
+ *
+ * 금융사 상품 기준 한도(PRODUCTS.limitBase)는 금융사 조회(M-05)와 조회 결과(M-07)가 함께 쓰고,
+ * 선택 농장의 담보가치인정액에 비례해 환산된다 (limit()).
  */
 (function () {
   "use strict";
@@ -39,6 +42,13 @@
   var KEY_FINANCE = "chamfi.financeChecked"; // 금융사 조회 완료한 농장 이름
   var KEY_STAGE = "chamfi.applyStage";       // 신청 현황 단계 (2~4)
   var memory = {};
+
+  /** 금융사 상품 (금융사 조회 · 조회 결과 · 신청 화면 공용). limitBase 는 부경축공 · 보험 가입 기준 한도(만 원) */
+  var PRODUCTS = {
+    chukhyup: { id: "chukhyup", name: "참참축협",   product: "축우담보 운영자금", limitBase: 10000 },
+    bank:     { id: "bank",     name: "참참은행",   product: "축산 운영자금대출", limitBase: 8000 },
+    capital:  { id: "capital",  name: "참참캐피탈", product: "축우담보대출",     limitBase: 12000 }
+  };
 
   // 저장은 sessionStorage(탭 단위) — 화면 이동 · 새로고침에도 값이 유지되고, 탭을 닫으면 사라진다.
   // 화면 목록의 미리보기(iframe)는 실제 세션 상태를 바꾸지 않도록 메모리만 쓴다.
@@ -72,6 +82,7 @@
 
   var api = {
     FARMS: FARMS,
+    PRODUCTS: PRODUCTS,
 
     get: function () {
       var saved = read(KEY_FARM);
@@ -143,10 +154,10 @@
         return {
           asset: farm.assetWon / 10000,
           collateralOn: farm.collateralWon / 10000,
-          collateralOff: farm.assetWon * RATIO_UNINSURED / 10000,
+          collateralOff: farm.collateralWon * (RATIO_UNINSURED / RATIO_INSURED) / 10000,
           assetWon: farm.assetWon,
           collateralOnWon: farm.collateralWon,
-          collateralOffWon: Math.round(farm.assetWon * RATIO_UNINSURED)
+          collateralOffWon: Math.round(farm.collateralWon * (RATIO_UNINSURED / RATIO_INSURED))
         };
       }
       var asset = round10(farm.steer * PRICE_PER_STEER);
